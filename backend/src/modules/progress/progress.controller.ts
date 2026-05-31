@@ -12,7 +12,16 @@ export class ProgressController {
     try {
       const userId = req.user!.userId;
       const progress = await this.service.getUserProgress(userId);
-      res.status(200).json({ data: progress });
+      const mappedProgress = progress.map((p: any) => ({
+        id: p.id,
+        subjectId: p.subjectId,
+        subjectName: p.subject.name,
+        masteryLevel: p.estimatedMasteryLevel.toUpperCase(),
+        totalStudyHours: p.totalStudyHours,
+        sessionsAttended: p.sessionsAttended,
+        lastStudiedAt: p.lastStudiedAt
+      }));
+      res.status(200).json({ data: mappedProgress });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }

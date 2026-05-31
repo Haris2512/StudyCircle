@@ -46,7 +46,18 @@ export class MaterialsController {
       const userId = req.user!.userId;
 
       const materials = await this.service.getGroupMaterials(userId, groupId);
-      res.status(200).json({ data: materials });
+      const mappedMaterials = materials.map((m: any) => ({
+        id: m.id,
+        title: m.title,
+        description: m.description,
+        fileUrl: m.fileUrl,
+        fileType: m.fileType,
+        fileSize: m.fileSize,
+        uploadedAt: m.uploadedAt,
+        uploaderName: m.uploader?.fullName || m.uploader?.username || 'Unknown',
+        uploaderId: m.uploaderId
+      }));
+      res.status(200).json({ data: mappedMaterials });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
