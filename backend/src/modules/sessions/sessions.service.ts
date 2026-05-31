@@ -1,14 +1,17 @@
 import { SessionsRepository } from './sessions.repository';
 import { GroupsRepository } from '../groups/groups.repository';
 import { Prisma, SessionStatus, AttendanceStatus } from '@prisma/client';
+import { ProgressService } from '../progress/progress.service';
 
 export class SessionsService {
   private repository: SessionsRepository;
   private groupsRepository: GroupsRepository;
+  private progressService: ProgressService;
 
   constructor() {
     this.repository = new SessionsRepository();
     this.groupsRepository = new GroupsRepository();
+    this.progressService = new ProgressService();
   }
 
   async createSession(userId: string, groupId: string, data: {
@@ -98,7 +101,19 @@ export class SessionsService {
 
     // 3. Handle active attendees when a session is cancelled
     if (data.status === SessionStatus.cancelled && session.status !== SessionStatus.cancelled) {
-      await this.repository.cancelActiveAttendances(sessionId);
+      const cancelledAttendances = await this.repository.cancelActiveAttendances(sessionId);
+      
+      // Update progress for all cancelled attendances
+      for (const att of cancelledAttendances) {
+        if (att.durationMinutes && att.durationMinutes > 0) {
+          await this.progressService.updateProgress(
+            att.userId,
+            session.studyGroup.subjectId,
+            'left_early',
+            att.durationMinutes
+          );
+        }
+      }
     }
 
     return updatedSession;
@@ -189,6 +204,17 @@ export class SessionsService {
       durationMinutes,
       status,
     });
+
+    // Update Progress idempotently
+    // Assuming the attendance was active, it hasn't been processed before
+    if (durationMinutes > 0 || status === AttendanceStatus.completed) {
+      await this.progressService.updateProgress(
+        userId,
+        session.studyGroup.subjectId,
+        status,
+        durationMinutes
+      );
+    }
 
     if (isAnomalous) {
       // In a real system we might log this or add an anomalous flag

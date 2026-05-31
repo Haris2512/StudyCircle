@@ -64,6 +64,28 @@ export class MaterialsService {
     }
   }
 
+  async getMaterialDownloadPath(userId: string, materialId: string) {
+    const material = await this.repository.findMaterialById(materialId);
+    if (!material) throw new Error('Material not found');
+
+    await this.requireMember(material.studyGroupId, userId);
+
+    const basePath = path.join(process.cwd(), 'uploads', 'materials');
+    // Ensure we construct the absolute path properly from fileUrl (which might contain uploads/materials already depending on saving logic, or might just be the relative string).
+    // In our upload Material, fileUrl is stored relative to project root.
+    const requestedPath = path.resolve(process.cwd(), material.fileUrl);
+
+    if (!requestedPath.startsWith(basePath)) {
+      throw new Error('Invalid file path access');
+    }
+
+    if (!fs.existsSync(requestedPath)) {
+      throw new Error('File not found on server');
+    }
+
+    return requestedPath;
+  }
+
   // --- Helper Methods ---
 
   private async requireMember(groupId: string, userId: string) {

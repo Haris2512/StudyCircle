@@ -26,4 +26,5 @@ groupMaterialsRouter.get('/', controller.getGroupMaterials);
 // Global-level material routes (mounted at /api/v1/materials)
 export const materialsRouter = Router();
 materialsRouter.use(requireAuth);
+materialsRouter.get('/:materialId/download', controller.downloadMaterial);
 materialsRouter.delete('/:materialId', controller.deleteMaterial);
