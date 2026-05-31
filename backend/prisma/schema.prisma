@@ -7,11 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  student
-  admin
-}
-
 enum MemberRole {
   admin
   member
@@ -31,23 +26,22 @@ enum AttendanceStatus {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  username      String    @unique
-  email         String    @unique
-  passwordHash  String
-  fullName      String
-  semester      Int?
-  role          UserRole  @default(student)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  fullName     String
+  semester     Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   learningStyle      LearningStyle?
   members            Member[]
   materials          Material[]
   progress           Progress[]
   sessionAttendances SessionAttendance[]
-  createdGroups      StudyGroup[] @relation("CreatedGroups")
-  createdSessions    Session[]   @relation("CreatedSessions")
+  createdGroups      StudyGroup[]        @relation("CreatedGroups")
+  createdSessions    Session[]           @relation("CreatedSessions")
 
   @@map("users")
 }
@@ -74,6 +68,7 @@ model Subject {
   updatedAt   DateTime @updatedAt
 
   studyGroups StudyGroup[]
+  progress    Progress[]
 
   @@map("subjects")
 }
@@ -93,7 +88,6 @@ model StudyGroup {
   members   Member[]
   sessions  Session[]
   materials Material[]
-  progress  Progress[]
 
   @@index([subjectId])
   @@index([createdBy])
@@ -128,9 +122,9 @@ model Session {
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
 
-  studyGroup   StudyGroup          @relation(fields: [studyGroupId], references: [id], onDelete: Cascade)
-  creator      User                @relation("CreatedSessions", fields: [createdBy], references: [id])
-  attendances  SessionAttendance[]
+  studyGroup  StudyGroup          @relation(fields: [studyGroupId], references: [id], onDelete: Cascade)
+  creator     User                @relation("CreatedSessions", fields: [createdBy], references: [id])
+  attendances SessionAttendance[]
 
   @@index([studyGroupId])
   @@index([createdBy])
@@ -177,19 +171,20 @@ model Material {
 }
 
 model Progress {
-  id                    String   @id @default(uuid())
+  id                    String    @id @default(uuid())
   userId                String
-  studyGroupId          String
-  sessionsAttended      Int      @default(0)
-  totalStudyHours       Float    @default(0)
-  estimatedMasteryLevel String   @default("Beginner")
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  subjectId             String
+  sessionsAttended      Int       @default(0)
+  totalStudyHours       Float     @default(0)
+  estimatedMasteryLevel String    @default("Beginner")
+  lastStudiedAt         DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  studyGroup StudyGroup @relation(fields: [studyGroupId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, studyGroupId])
-  @@index([studyGroupId])
+  @@unique([userId, subjectId])
+  @@index([subjectId])
   @@map("progress")
 }
