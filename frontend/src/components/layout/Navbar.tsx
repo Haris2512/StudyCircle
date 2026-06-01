@@ -10,7 +10,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
   const { user, logout } = useAuth();
 
   return (
-    <header className="fixed top-0 right-0 left-0 lg:left-60 z-30 h-16 bg-[#141927] border-b border-gray-700/50 flex items-center justify-between px-4 sm:px-6">
+    <header className="fixed top-0 right-0 left-0 lg:left-60 z-30 h-16 bg-[#0B0F19]/60 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-4 sm:px-6 shadow-sm">
       {/* Left section */}
       <div className="flex items-center gap-3">
         {/* Hamburger – visible below lg */}
@@ -32,7 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
         )}
         <button
           onClick={logout}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-700/50 transition-colors"
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/10 hover:shadow-lg transition-all duration-200"
           aria-label="Logout"
         >
           <LogOut className="h-4 w-4" />

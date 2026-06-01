@@ -25,15 +25,15 @@ export const RecommendedGroupCard: React.FC<RecommendedGroupCardProps> = ({ grou
   const isFull = group._count && group._count.members >= group.maxMembers;
 
   return (
-    <Card className="flex flex-col h-full hover:-translate-y-1 transition-transform duration-200 border-indigo-100 dark:border-indigo-900/50">
+    <Card hoverable className="flex flex-col h-full bg-gradient-to-br from-[#0B0F19]/80 to-indigo-900/10 border-indigo-500/20">
       <div className="flex-1">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white line-clamp-1 text-left">
+            <h3 className="text-xl font-bold text-white line-clamp-1 text-left">
               {group.name}
             </h3>
             {group.subject && (
-              <div className="mt-1">
+              <div className="mt-2">
                 <Badge variant="info">{group.subject.name}</Badge>
               </div>
             )}
@@ -43,24 +43,24 @@ export const RecommendedGroupCard: React.FC<RecommendedGroupCardProps> = ({ grou
           </div>
         </div>
 
-        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-4 text-left">
+        <p className="text-sm text-gray-400 line-clamp-2 mb-4 text-left">
           {group.description || 'No description provided.'}
         </p>
 
         {group.matchReasons.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-4 text-left">
+          <div className="flex flex-wrap gap-2 mb-4 text-left">
             {group.matchReasons.map((reason, idx) => (
-              <span key={idx} className="text-xs text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded-full">
-                ✓ {reason}
+              <span key={idx} className="text-xs font-medium text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full">
+                ✨ {reason}
               </span>
             ))}
           </div>
         )}
       </div>
 
-      <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
-        <div className="text-sm text-gray-500 dark:text-gray-400">
-          <span className="font-medium text-gray-900 dark:text-gray-200">
+      <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+        <div className="text-sm text-gray-400">
+          <span className="font-semibold text-gray-200">
             {group._count?.members || 0}
           </span>
           <span className="mx-1">/</span>
@@ -70,8 +70,7 @@ export const RecommendedGroupCard: React.FC<RecommendedGroupCardProps> = ({ grou
           onClick={handleJoin}
           disabled={isFull || isJoining}
           loading={isJoining}
-          size="sm"
-          className="bg-indigo-600 hover:bg-indigo-700 text-white"
+          className="shadow-lg shadow-indigo-500/20"
         >
           {isFull ? 'Full' : 'Join Group'}
         </Button>

@@ -8,14 +8,14 @@ interface LearningStyleInsightProps {
 export const LearningStyleInsight: React.FC<LearningStyleInsightProps> = ({ learningStyle }) => {
   if (!learningStyle) {
     return (
-      <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-indigo-100 dark:border-indigo-800/50">
+      <Card className="bg-gradient-to-br from-[#0B0F19]/80 to-purple-900/10 border-purple-500/20 backdrop-blur-md">
         <div className="flex items-start space-x-4">
-          <div className="text-4xl">💡</div>
+          <div className="text-4xl animate-pulse-glow">💡</div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-lg font-bold text-white">
               Unlock Smart Recommendations!
             </h3>
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            <p className="mt-2 text-sm text-gray-400">
               Set your learning style in your profile to get personalized group and material recommendations.
             </p>
           </div>
@@ -51,21 +51,21 @@ export const LearningStyleInsight: React.FC<LearningStyleInsightProps> = ({ lear
   }
 
   return (
-    <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-100 dark:border-blue-800/50 h-full">
+    <Card className="bg-gradient-to-br from-[#0B0F19]/80 to-cyan-900/10 border-cyan-500/20 backdrop-blur-md h-full">
       <div className="flex items-start space-x-4">
-        <div className="text-4xl">{icon}</div>
+        <div className="text-4xl animate-pulse-glow">{icon}</div>
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            You are a {learningStyle} Learner
+          <h3 className="text-lg font-bold text-white">
+            You are a <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400">{learningStyle}</span> Learner
           </h3>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          <p className="mt-1 text-sm text-gray-400">
             Recommended material types for your groups:
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-4 flex flex-wrap gap-2">
             {recommended.map((item, i) => (
               <span
                 key={i}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300"
+                className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 shadow-sm"
               >
                 {item}
               </span>

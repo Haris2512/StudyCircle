@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -14,8 +15,10 @@ const subjects = [
 ];
 
 async function main() {
-  console.log('Seeding subjects...');
+  console.log('Seeding database...');
   
+  // 1. Seed Subjects
+  console.log('Seeding subjects...');
   for (const subject of subjects) {
     await prisma.subject.upsert({
       where: { code: subject.code },
@@ -23,8 +26,135 @@ async function main() {
       create: subject,
     });
   }
+
+  const dbSubjects = await prisma.subject.findMany();
+  const getSubj = (code: string) => dbSubjects.find(s => s.code === code)!.id;
+
+  // 2. Seed Users
+  console.log('Seeding users and profiles...');
+  const defaultPassword = await bcrypt.hash('password123', 10);
   
-  console.log('Seeding completed successfully.');
+  const dummyUsers = [
+    { username: 'zeleo', email: 'zeleo@example.com', fullName: 'Zeleo Mahasiswa', semester: 4, style: 'Visual' },
+    { username: 'john', email: 'john@example.com', fullName: 'John Doe', semester: 2, style: 'Auditory' },
+    { username: 'jane', email: 'jane@example.com', fullName: 'Jane Smith', semester: 6, style: 'Kinesthetic' },
+    { username: 'budi', email: 'budi@example.com', fullName: 'Budi Santoso', semester: 4, style: 'Reading/Writing' },
+    { username: 'siti', email: 'siti@example.com', fullName: 'Siti Aminah', semester: 4, style: 'Visual' },
+  ];
+
+  for (const u of dummyUsers) {
+    const user = await prisma.user.upsert({
+      where: { email: u.email },
+      update: {},
+      create: {
+        username: u.username,
+        email: u.email,
+        passwordHash: defaultPassword,
+        fullName: u.fullName,
+        semester: u.semester,
+      }
+    });
+
+    // Create LearningStyle
+    await prisma.learningStyle.upsert({
+      where: { userId: user.id },
+      update: { primaryStyle: u.style },
+      create: {
+        userId: user.id,
+        primaryStyle: u.style,
+      }
+    });
+  }
+
+  const dbUsers = await prisma.user.findMany();
+  const getUser = (username: string) => dbUsers.find(u => u.username === username)!.id;
+
+  // 3. Seed Progress (Enrolled subjects)
+  console.log('Seeding progress...');
+  const progressMap = [
+    { username: 'zeleo', codes: ['IF-201', 'IF-202'] },
+    { username: 'john', codes: ['IF-101', 'IF-102'] },
+    { username: 'jane', codes: ['IF-301', 'IF-302', 'IF-401'] },
+    { username: 'budi', codes: ['IF-201', 'IF-301'] },
+    { username: 'siti', codes: ['IF-201', 'IF-202'] },
+  ];
+
+  for (const pm of progressMap) {
+    const userId = getUser(pm.username);
+    for (const code of pm.codes) {
+      await prisma.progress.upsert({
+        where: { userId_subjectId: { userId, subjectId: getSubj(code) } },
+        update: {},
+        create: {
+          userId,
+          subjectId: getSubj(code),
+          estimatedMasteryLevel: 'Beginner'
+        }
+      });
+    }
+  }
+
+  // 4. Seed Study Groups (With keywords for recommendation engine)
+  console.log('Seeding study groups...');
+  // We use upsert based on name or simply clear and create to avoid duplicates
+  // But StudyGroup doesn't have a unique name constraint.
+  // We will check if it exists first.
+  const groups = [
+    {
+      name: 'Web Dev Diagram Masters',
+      description: 'We draw architecture diagrams and mindmaps for Advanced Web Programming.',
+      subjectId: getSubj('IF-201'),
+      createdBy: getUser('siti'),
+      maxMembers: 5,
+    },
+    {
+      name: 'IF-201 Discussion & Podcast',
+      description: 'We learn by discussing and listening to coding podcasts.',
+      subjectId: getSubj('IF-201'),
+      createdBy: getUser('john'),
+      maxMembers: 10,
+    },
+    {
+      name: 'Algo Practice Squad',
+      description: 'Hands-on practice and building real mini-projects for Data Structures.',
+      subjectId: getSubj('IF-202'),
+      createdBy: getUser('jane'),
+      maxMembers: 4,
+    },
+    {
+      name: 'Database Textbook Readers',
+      description: 'Reading SQL textbooks, writing notes, and sharing articles.',
+      subjectId: getSubj('IF-301'),
+      createdBy: getUser('budi'),
+      maxMembers: 8,
+    },
+  ];
+
+  for (const g of groups) {
+    const existingGroup = await prisma.studyGroup.findFirst({ where: { name: g.name } });
+    let group = existingGroup;
+    if (!existingGroup) {
+      group = await prisma.studyGroup.create({
+        data: g
+      });
+
+      // Add creator as member
+      await prisma.member.create({
+        data: {
+          studyGroupId: group.id,
+          userId: g.createdBy,
+          role: 'admin'
+        }
+      });
+
+      // Randomize some members
+      if (g.name === 'Web Dev Diagram Masters') {
+        await prisma.member.create({ data: { studyGroupId: group.id, userId: getUser('budi'), role: 'member' } });
+      }
+    }
+  }
+
+  console.log('Seeding completed successfully!');
 }
 
 main()

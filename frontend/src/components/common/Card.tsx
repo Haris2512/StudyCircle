@@ -17,11 +17,11 @@ export const Card: React.FC<CardProps> = ({
     <div
       onClick={onClick}
       className={`
-        bg-[#141927] rounded-xl
-        border border-gray-700/50
-        shadow-lg shadow-black/20
-        transition-all duration-200
-        ${hoverable ? "hover:scale-[1.02] hover:shadow-xl hover:border-gray-600/50 cursor-pointer" : ""}
+        bg-[#0B0F19]/40 backdrop-blur-xl rounded-xl
+        border border-white/5
+        shadow-xl shadow-black/40
+        transition-all duration-300
+        ${hoverable ? "hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/10 hover:border-white/10 hover:bg-[#0B0F19]/60 cursor-pointer" : ""}
         ${onClick && !hoverable ? "cursor-pointer" : ""}
         ${className}
       `}

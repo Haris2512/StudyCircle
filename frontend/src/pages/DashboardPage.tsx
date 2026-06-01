@@ -47,21 +47,27 @@ export function DashboardPage() {
   const myGroups = groups.filter(g => g.members?.some(m => m.userId === user?.id));
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-8 pb-12 animate-fade-in-up">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-xl border border-indigo-500/20 p-6 md:p-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-white">
-          Welcome back, {user?.fullName ?? 'Student'}! 👋
-        </h1>
-        <p className="text-gray-300 mt-2 text-sm md:text-base">
-          Here's an overview of your study activity and smart recommendations.
-        </p>
+      <div className="relative overflow-hidden bg-gradient-to-r from-indigo-900/40 via-purple-900/40 to-[#0B0F19] rounded-2xl border border-white/10 p-8 md:p-10 shadow-2xl">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div className="relative z-10">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+            Welcome back, {user?.fullName ?? 'Student'}! <span className="animate-pulse-glow inline-block">👋</span>
+          </h1>
+          <p className="text-gray-400 mt-3 text-base md:text-lg max-w-xl">
+            Here's an overview of your study activity and smart recommendations tailored just for you.
+          </p>
+        </div>
       </div>
 
       {/* Recommendations Section */}
-      <section className="bg-white/5 dark:bg-gray-900/50 rounded-2xl p-6 border border-gray-100 dark:border-gray-800">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">StudyCircle Recommendations</h2>
+      <section className="bg-[#0B0F19]/40 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-white/5 shadow-xl animate-fade-in-up animate-delay-100">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+            <span className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">✨</span>
+            Smart Recommendations
+          </h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -113,9 +119,9 @@ export function DashboardPage() {
       </section>
 
       {/* Quick Actions */}
-      <div className="flex flex-wrap gap-3">
-        <Button onClick={() => navigate('/groups')}>
-          <BookOpen className="w-4 h-4" />
+      <div className="flex flex-wrap gap-4 animate-fade-in-up animate-delay-200">
+        <Button size="lg" onClick={() => navigate('/groups')}>
+          <BookOpen className="w-5 h-5" />
           Browse All Groups
         </Button>
         <Button variant="secondary" onClick={() => navigate('/progress')}>
@@ -125,8 +131,8 @@ export function DashboardPage() {
       </div>
 
       {/* My Groups */}
-      <section>
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">My Groups</h2>
+      <section className="animate-fade-in-up animate-delay-300">
+        <h2 className="text-2xl font-bold text-white mb-6">My Study Groups</h2>
         {myGroups.length === 0 ? (
           <EmptyState
             title="No groups yet"

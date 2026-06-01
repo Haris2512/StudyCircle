@@ -16,13 +16,13 @@ interface ButtonProps {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-indigo-600 text-white hover:bg-indigo-500 focus:ring-indigo-500 shadow-md shadow-indigo-500/20",
+    "bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 focus:ring-indigo-500 shadow-lg shadow-indigo-500/25 border border-indigo-500/50",
   secondary:
-    "bg-gray-700 text-gray-200 hover:bg-gray-600 focus:ring-gray-500",
+    "bg-white/5 text-gray-200 hover:bg-white/10 focus:ring-gray-500 border border-white/10 backdrop-blur-sm",
   danger:
-    "bg-red-600 text-white hover:bg-red-500 focus:ring-red-500 shadow-md shadow-red-500/20",
+    "bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 focus:ring-red-500 shadow-lg shadow-red-500/25 border border-red-500/50",
   ghost:
-    "bg-transparent text-gray-300 hover:bg-white/10 focus:ring-gray-500",
+    "bg-transparent text-gray-300 hover:text-white hover:bg-white/10 focus:ring-gray-500 transition-colors",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

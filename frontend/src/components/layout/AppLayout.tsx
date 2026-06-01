@@ -10,7 +10,7 @@ export const AppLayout: React.FC = () => {
   const handleSidebarClose = () => setSidebarOpen(false);
 
   return (
-    <div className="min-h-screen bg-[#0B0F19]">
+    <div className="min-h-screen bg-transparent">
       <Sidebar isOpen={sidebarOpen} onClose={handleSidebarClose} />
       <Navbar onMenuToggle={handleMenuToggle} />
 

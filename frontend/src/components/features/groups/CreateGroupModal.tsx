@@ -64,6 +64,30 @@ export function CreateGroupModal({ isOpen, onClose, onCreated }: CreateGroupModa
         />
 
         <div className="flex flex-col gap-1.5">
+          <label htmlFor="subjectId" className="text-sm font-medium text-gray-300">
+            Subject
+          </label>
+          <select
+            id="subjectId"
+            name="subjectId"
+            value={subjectId}
+            onChange={(e) => setSubjectId(e.target.value)}
+            className="w-full px-3.5 py-2.5 rounded-lg bg-[#1a2035] text-white border border-gray-700/50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-all duration-200 text-sm"
+            required
+          >
+            <option value="" disabled>Select a subject</option>
+            <option value="3554f848-3771-40b1-927f-331f10f0726c">IF-101 Introduction to Programming</option>
+            <option value="6ad1fbf5-2119-4a31-b831-2d1370a799ca">IF-102 Calculus I</option>
+            <option value="f448423d-05d3-466f-bab4-364371b54b14">IF-201 Advanced Web Programming</option>
+            <option value="68393244-fa3e-4ac9-b681-f03c91aa1e37">IF-202 Data Structures and Algorithms</option>
+            <option value="4ae6b0db-ad36-4c60-a799-a287b5a1c6da">IF-301 Database Systems</option>
+            <option value="9630f172-12c6-4052-b8a4-86a25e6451dc">IF-302 Software Engineering</option>
+            <option value="0b162680-9606-4be0-970b-17ed99218048">IF-401 Artificial Intelligence</option>
+            <option value="6ff639d9-7526-4c03-b9ac-a9899fc3f31f">IF-402 Computer Networks</option>
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-1.5">
           <label htmlFor="description" className="text-sm font-medium text-gray-300">
             Description
           </label>
@@ -78,14 +102,7 @@ export function CreateGroupModal({ isOpen, onClose, onCreated }: CreateGroupModa
           />
         </div>
 
-        <FormInput
-          label="Subject ID"
-          name="subjectId"
-          value={subjectId}
-          onChange={(e) => setSubjectId(e.target.value)}
-          placeholder="Enter subject ID"
-          required
-        />
+
 
         <FormInput
           label="Max Members"
