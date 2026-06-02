@@ -1,50 +1,50 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Lock, BookOpen, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useAuth } from '../hooks/useAuth';
 import { authApi } from '../api/auth.api';
 import { FormInput } from '../components/common/FormInput';
 import { Button } from '../components/common/Button';
 
+const registerSchema = z.object({
+  fullName: z.string().min(1, 'Nama lengkap tidak boleh kosong'),
+  username: z.string().min(3, 'Username minimal 3 karakter').max(30, 'Username maksimal 30 karakter'),
+  email: z.string().email('Format email tidak valid'),
+  semester: z.string().optional(),
+  password: z.string().min(6, 'Kata sandi minimal 6 karakter'),
+});
+
+type RegisterForm = z.infer<typeof registerSchema>;
+
 export const RegisterPage: React.FC = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    fullName: '',
-    semester: '',
-  });
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegisterForm>({
+    resolver: zodResolver(registerSchema),
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
+  const onSubmit = async (data: RegisterForm) => {
+    setApiError('');
     try {
       const payload = {
-        ...formData,
-        semester: formData.semester ? parseInt(formData.semester, 10) : undefined,
+        ...data,
+        semester: data.semester ? parseInt(data.semester, 10) : undefined,
       };
       const response = await authApi.register(payload);
       if (response.success && response.data) {
-        login(response.data.token, response.data.user);
+        login(response.data); // No token string passed anymore
         navigate('/dashboard');
       } else {
-        setError(response.message || 'Pendaftaran gagal');
+        setApiError(response.message || 'Pendaftaran gagal');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Terjadi kesalahan saat mendaftar');
-    } finally {
-      setIsLoading(false);
+      setApiError(err.response?.data?.message || 'Terjadi kesalahan saat mendaftar');
     }
   };
 
@@ -94,63 +94,53 @@ export const RegisterPage: React.FC = () => {
             <p className="text-gray-400">Lengkapi data diri Anda untuk bergabung ke StudyCircle.</p>
           </div>
 
-          {error && (
+          {apiError && (
             <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg mb-6 text-sm">
-              {error}
+              {apiError}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <FormInput
               label="Nama Lengkap"
-              name="fullName"
-              required
-              value={formData.fullName}
-              onChange={handleChange}
               placeholder="Masukkan nama lengkap"
               leadingIcon={<User className="w-5 h-5" />}
+              error={errors.fullName?.message}
+              {...register('fullName')}
             />
 
             <FormInput
               label="Username"
-              name="username"
-              required
-              value={formData.username}
-              onChange={handleChange}
               placeholder="pilih_username"
               leadingIcon={<User className="w-5 h-5" />}
+              error={errors.username?.message}
+              {...register('username')}
             />
 
             <FormInput
               label="Email"
               type="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
               placeholder="contoh@kampus.ac.id"
               leadingIcon={<Mail className="w-5 h-5" />}
+              error={errors.email?.message}
+              {...register('email')}
             />
 
             <FormInput
               label="Semester (Opsional)"
               type="number"
-              name="semester"
-              value={formData.semester}
-              onChange={handleChange}
               placeholder="Contoh: 3"
               leadingIcon={<BookOpen className="w-5 h-5" />}
+              error={errors.semester?.message}
+              {...register('semester')}
             />
 
             <FormInput
               label="Kata Sandi"
               type={showPassword ? "text" : "password"}
-              name="password"
-              required
-              value={formData.password}
-              onChange={handleChange}
               placeholder="Buat kata sandi baru"
               leadingIcon={<Lock className="w-5 h-5" />}
+              error={errors.password?.message}
               trailingIcon={
                 <button
                   type="button"
@@ -160,14 +150,15 @@ export const RegisterPage: React.FC = () => {
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               }
+              {...register('password')}
             />
 
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={isSubmitting}
               className="w-full py-3 mt-6"
             >
-              {isLoading ? 'Mendaftar...' : 'Daftar Sekarang'} <ArrowRight className="w-4 h-4" />
+              {isSubmitting ? 'Mendaftar...' : 'Daftar Sekarang'} <ArrowRight className="w-4 h-4" />
             </Button>
           </form>
 

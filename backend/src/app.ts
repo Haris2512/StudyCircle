@@ -1,14 +1,32 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
 import { env } from './config/env';
 import { errorHandler } from './middleware/error.middleware';
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Security Middleware
+app.use(helmet());
+app.use(cors({
+  origin: 'http://localhost:5173', // Ensure frontend origin is allowed for credentials
+  credentials: true,
+}));
+
+// Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 150, // Limit each IP to 150 requests per windowMs
+  message: { success: false, message: 'Too many requests, please try again later.' },
+});
+app.use('/api', limiter);
+
+// Body Parsing & Cookies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Removed static file serving for uploads to enforce authorization
 // Health check route

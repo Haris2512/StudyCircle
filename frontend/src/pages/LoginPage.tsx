@@ -1,37 +1,43 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useAuth } from '../hooks/useAuth';
 import { authApi } from '../api/auth.api';
 import { FormInput } from '../components/common/FormInput';
 import { Button } from '../components/common/Button';
 
+const loginSchema = z.object({
+  email: z.string().email('Format email tidak valid'),
+  password: z.string().min(1, 'Kata sandi tidak boleh kosong'),
+});
+
+type LoginForm = z.infer<typeof loginSchema>;
+
 export const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+  });
 
+  const onSubmit = async (data: LoginForm) => {
+    setApiError('');
     try {
-      const response = await authApi.login({ email, password });
+      const response = await authApi.login(data);
       if (response.success && response.data) {
-        login(response.data.token, response.data.user);
+        login(response.data); // Token is no longer required due to HTTP-Only Cookie
         navigate('/dashboard');
       } else {
-        setError(response.message || 'Login failed');
+        setApiError(response.message || 'Login gagal');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'An error occurred during login');
-    } finally {
-      setIsLoading(false);
+      setApiError(err.response?.data?.message || 'Terjadi kesalahan saat mencoba masuk');
     }
   };
 
@@ -81,34 +87,29 @@ export const LoginPage: React.FC = () => {
             <p className="text-gray-400">Silakan masukkan detail akun Anda untuk melanjutkan.</p>
           </div>
 
-          {error && (
+          {apiError && (
             <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg mb-6 text-sm">
-              {error}
+              {apiError}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <FormInput
               label="Email"
               type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               placeholder="contoh@kampus.ac.id"
-              required
               leadingIcon={<Mail className="w-5 h-5" />}
+              error={errors.email?.message}
+              {...register('email')}
             />
 
             <div>
               <FormInput
                 label="Kata Sandi"
                 type={showPassword ? "text" : "password"}
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Masukkan kata sandi"
-                required
                 leadingIcon={<Lock className="w-5 h-5" />}
+                error={errors.password?.message}
                 trailingIcon={
                   <button
                     type="button"
@@ -118,6 +119,7 @@ export const LoginPage: React.FC = () => {
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 }
+                {...register('password')}
               />
               <div className="flex justify-end mt-1.5">
                 <a href="#" className="text-sm text-primary-500 hover:text-primary-400">
@@ -128,10 +130,10 @@ export const LoginPage: React.FC = () => {
 
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={isSubmitting}
               className="w-full py-3 mt-4"
             >
-              {isLoading ? 'Masuk...' : 'Masuk'} <ArrowRight className="w-4 h-4" />
+              {isSubmitting ? 'Masuk...' : 'Masuk'} <ArrowRight className="w-4 h-4" />
             </Button>
           </form>
 

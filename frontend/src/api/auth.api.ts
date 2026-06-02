@@ -1,14 +1,14 @@
 import { axiosInstance } from './axiosInstance';
-import type { ApiResponse, AuthResponse, User } from '../types';
+import type { ApiResponse, User } from '../types';
 
 export const authApi = {
-  register: async (data: any): Promise<ApiResponse<AuthResponse>> => {
-    const response = await axiosInstance.post<ApiResponse<AuthResponse>>('/auth/register', data);
+  register: async (data: any): Promise<ApiResponse<User>> => {
+    const response = await axiosInstance.post<ApiResponse<User>>('/auth/register', data);
     return response.data;
   },
 
-  login: async (data: any): Promise<ApiResponse<AuthResponse>> => {
-    const response = await axiosInstance.post<ApiResponse<AuthResponse>>('/auth/login', data);
+  login: async (data: any): Promise<ApiResponse<User>> => {
+    const response = await axiosInstance.post<ApiResponse<User>>('/auth/login', data);
     return response.data;
   },
 

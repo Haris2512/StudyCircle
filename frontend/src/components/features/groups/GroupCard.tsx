@@ -1,4 +1,4 @@
-import { Users, BookOpen, Calendar, ChevronRight } from 'lucide-react';
+import { Users, BookOpen } from 'lucide-react';
 import { Card } from '../../common/Card';
 import { Badge } from '../../common/Badge';
 import { Button } from '../../common/Button';
@@ -53,8 +53,7 @@ export function GroupCard({ group, isMember, onJoin, onClick }: GroupCardProps) 
           {memberCount}/{maxMembers} Anggota
         </div>
         <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4" />
-          {group.schedule || 'Jadwal belum ditentukan'}
+          {'Jadwal belum ditentukan'}
         </div>
       </div>
 

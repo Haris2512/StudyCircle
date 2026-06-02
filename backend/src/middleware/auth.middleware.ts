@@ -2,13 +2,16 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../config/jwt';
 
 export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
+  let token = req.cookies?.token;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ success: false, message: 'No token provided' });
+  // Fallback to Authorization header for API testing tools like Postman
+  if (!token && req.headers.authorization?.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
   }
 
-  const token = authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'No token provided' });
+  }
 
   try {
     const payload = verifyToken(token);

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ArrowRight } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
