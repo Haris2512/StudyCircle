@@ -35,10 +35,10 @@ async function main() {
   const defaultPassword = await bcrypt.hash('password123', 10);
   
   const dummyUsers = [
-    { username: 'zeleo', email: 'zeleo@studycircle.ac.id', fullName: 'Zeleo Mahasiswa', semester: 4, style: 'Visual' },
+    { username: 'zeleo', email: 'zeleo@studycircle.ac.id', fullName: 'Shin Zeleo', semester: 4, style: 'Visual' },
     { username: 'imam', email: 'imam@studycircle.ac.id', fullName: 'Imam Dzaqhoir', semester: 2, style: 'Auditory' },
-    { username: 'haris', email: 'haris@studycircle.ac.id', fullName: 'Haris Kurniawan', semester: 6, style: 'Kinesthetic' },
-    { username: 'hanif', email: 'hanif@studycircle.ac.id', fullName: 'Hanif Ibrahim', semester: 4, style: 'Reading/Writing' },
+    { username: 'haris', email: 'haris@studycircle.ac.id', fullName: 'Haris', semester: 6, style: 'Kinesthetic' },
+    { username: 'hanif', email: 'hanif@studycircle.ac.id', fullName: 'Hanif Nurmahdin', semester: 4, style: 'Reading/Writing' },
     { username: 'siti', email: 'siti@studycircle.ac.id', fullName: 'Siti Aminah', semester: 4, style: 'Visual' },
   ];
 
