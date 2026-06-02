@@ -10,6 +10,8 @@ import { ProfilePage } from '../pages/ProfilePage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { AppLayout } from '../components/layout/AppLayout';
 
+import { GuestRoute } from './GuestRoute';
+
 // ---------------------------------------------------------------------------
 // Landing placeholder (kept inline — no dedicated page needed)
 // ---------------------------------------------------------------------------
@@ -39,10 +41,12 @@ export function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        {/* Guest routes (only accessible if not logged in) */}
+        <Route element={<GuestRoute />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
 
         {/* Protected routes wrapped in AppLayout */}
         <Route element={<ProtectedRoute />}>
