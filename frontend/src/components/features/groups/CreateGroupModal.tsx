@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Modal } from '../../common/Modal';
 import { FormInput } from '../../common/FormInput';
 import { Button } from '../../common/Button';
 import { groupsApi } from '../../../api/groups.api';
+import { subjectsApi } from '../../../api/subjects.api';
+import type { Subject } from '../../../types';
 
 interface CreateGroupModalProps {
   isOpen: boolean;
@@ -11,12 +14,35 @@ interface CreateGroupModalProps {
 }
 
 export function CreateGroupModal({ isOpen, onClose, onCreated }: CreateGroupModalProps) {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [subjectId, setSubjectId] = useState('');
   const [maxMembers, setMaxMembers] = useState('');
+  const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState(false);
+  const [subjectsLoading, setSubjectsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      const fetchSubjects = async () => {
+        try {
+          setSubjectsLoading(true);
+          const response = await subjectsApi.getAllSubjects();
+          if (response.success && response.data) {
+            setSubjects(response.data);
+          }
+        } catch (err: any) {
+          console.error("Gagal mengambil mata kuliah:", err);
+          setError("Gagal memuat daftar mata kuliah");
+        } finally {
+          setSubjectsLoading(false);
+        }
+      };
+      fetchSubjects();
+    }
+  }, [isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +51,7 @@ export function CreateGroupModal({ isOpen, onClose, onCreated }: CreateGroupModa
     try {
       setLoading(true);
       setError(null);
-      await groupsApi.createGroup({
+      const res = await groupsApi.createGroup({
         name: name.trim(),
         description: description.trim() || undefined,
         subjectId: subjectId.trim(),
@@ -38,6 +64,9 @@ export function CreateGroupModal({ isOpen, onClose, onCreated }: CreateGroupModa
       setMaxMembers('');
       onCreated();
       onClose();
+      if (res?.data?.id) {
+        navigate(`/groups/${res.data.id}`);
+      }
     } catch (err: any) {
       setError(err.response?.data?.error || 'Gagal membuat grup');
     } finally {
@@ -74,16 +103,16 @@ export function CreateGroupModal({ isOpen, onClose, onCreated }: CreateGroupModa
             onChange={(e) => setSubjectId(e.target.value)}
             className="w-full px-3.5 py-2.5 rounded-lg bg-dark-bg text-white border border-dark-border focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:outline-none transition-all duration-200 text-sm"
             required
+            disabled={subjectsLoading}
           >
-            <option value="" disabled>Pilih mata kuliah</option>
-            <option value="3554f848-3771-40b1-927f-331f10f0726c">IF-101 Introduction to Programming</option>
-            <option value="6ad1fbf5-2119-4a31-b831-2d1370a799ca">IF-102 Calculus I</option>
-            <option value="f448423d-05d3-466f-bab4-364371b54b14">IF-201 Advanced Web Programming</option>
-            <option value="68393244-fa3e-4ac9-b681-f03c91aa1e37">IF-202 Data Structures and Algorithms</option>
-            <option value="4ae6b0db-ad36-4c60-a799-a287b5a1c6da">IF-301 Database Systems</option>
-            <option value="9630f172-12c6-4052-b8a4-86a25e6451dc">IF-302 Software Engineering</option>
-            <option value="0b162680-9606-4be0-970b-17ed99218048">IF-401 Artificial Intelligence</option>
-            <option value="6ff639d9-7526-4c03-b9ac-a9899fc3f31f">IF-402 Computer Networks</option>
+            <option value="" disabled>
+              {subjectsLoading ? 'Memuat mata kuliah...' : 'Pilih mata kuliah'}
+            </option>
+            {subjects.map((sub) => (
+              <option key={sub.id} value={sub.id}>
+                {sub.code} {sub.name}
+              </option>
+            ))}
           </select>
         </div>
 

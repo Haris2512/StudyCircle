@@ -14,6 +14,7 @@ import { Button } from '../common/Button';
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  onCreateGroupClick?: () => void;
 }
 
 const navItems = [
@@ -23,7 +24,7 @@ const navItems = [
   { to: '/profile', label: 'Pengaturan', icon: Settings, end: false },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onCreateGroupClick }) => {
   return (
     <>
       {/* Mobile overlay backdrop */}
@@ -61,7 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
         {/* Primary Action */}
         <div className="px-5 mb-4 mt-2 shrink-0">
-          <Button variant="primary" className="w-full justify-center">
+          <Button variant="primary" className="w-full justify-center" onClick={onCreateGroupClick}>
             <Plus className="w-4 h-4" />
             Buat Grup Baru
           </Button>
