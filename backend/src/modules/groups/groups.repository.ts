@@ -33,7 +33,7 @@ export class GroupsRepository {
       where.subjectId = filters.subjectId;
     }
     if (filters?.search) {
-      where.name = { contains: filters.search, mode: 'insensitive' };
+      where.name = { contains: filters.search };
     }
 
     return prisma.studyGroup.findMany({
