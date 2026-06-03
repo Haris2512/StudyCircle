@@ -20,7 +20,7 @@ export const AdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-[#0a0a0f] text-gray-200 overflow-hidden font-inter selection:bg-primary-500/30">
+    <div className="flex h-screen bg-dark-bg text-gray-200 overflow-hidden selection:bg-primary-500/30">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div 
@@ -30,7 +30,7 @@ export const AdminLayout: React.FC = () => {
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#12121a] border-r border-white/5 transform transition-transform duration-300 lg:translate-x-0 lg:static flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-dark-card border-r border-white/5 transform transition-transform duration-300 lg:translate-x-0 lg:static flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="p-6 border-b border-white/5">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-purple-600 flex items-center justify-center">
@@ -43,7 +43,7 @@ export const AdminLayout: React.FC = () => {
           </div>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto" aria-label="Navigasi admin">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -75,6 +75,7 @@ export const AdminLayout: React.FC = () => {
           </div>
           <button
             onClick={logout}
+            aria-label="Keluar"
             className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200"
           >
             <LogOut className="w-5 h-5" />
@@ -84,16 +85,16 @@ export const AdminLayout: React.FC = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+      <main id="main-content" role="main" className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Mobile Header */}
-        <header className="lg:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#12121a]">
+        <header className="lg:hidden flex items-center justify-between p-4 border-b border-white/5 bg-dark-card">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-purple-600 flex items-center justify-center">
               <span className="text-white font-bold text-sm">SC</span>
             </div>
             <h1 className="text-lg font-bold text-white">Admin Panel</h1>
           </div>
-          <button onClick={() => setSidebarOpen(true)} className="p-2 text-gray-400 hover:text-white">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 text-gray-400 hover:text-white" aria-label="Buka menu">
             <Menu className="w-6 h-6" />
           </button>
         </header>

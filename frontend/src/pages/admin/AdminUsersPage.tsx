@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { adminApi } from '../../api/admin.api';
 import { Trash2, UserCog, Shield } from 'lucide-react';
+import { LoadingSpinner } from '../../components/common/LoadingSpinner';
+import { ConfirmDialog } from '../../components/common/ConfirmDialog';
 
 
 export function AdminUsersPage() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteTarget, setDeleteTarget] = useState<{id: string, name: string} | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const fetchUsers = async () => {
     try {
@@ -23,18 +27,23 @@ export function AdminUsersPage() {
     fetchUsers();
   }, []);
 
-  const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete user ${name}? This action cannot be undone.`)) return;
+  const handleDelete = (id: string, name: string) => setDeleteTarget({id, name});
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
     try {
-      await adminApi.deleteUser(id);
-      setUsers(users.filter(u => u.id !== id));
+      setDeleteError(null);
+      await adminApi.deleteUser(deleteTarget.id);
+      setUsers(users.filter(u => u.id !== deleteTarget.id));
+      setDeleteTarget(null);
     } catch (error: any) {
-      alert(error.response?.data?.message || 'Failed to delete user');
+      setDeleteTarget(null);
+      setDeleteError(error.response?.data?.message || 'Failed to delete user');
     }
   };
 
   if (loading) {
-    return <div className="text-gray-400">Loading users...</div>;
+    return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
   }
 
   return (
@@ -50,16 +59,22 @@ export function AdminUsersPage() {
         </div>
       </div>
 
+      {deleteError && (
+        <div role="alert" className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">
+          {deleteError}
+        </div>
+      )}
+
       <div className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-400">
             <thead className="text-xs uppercase bg-black/20 text-gray-400">
               <tr>
-                <th className="px-6 py-4">Name</th>
-                <th className="px-6 py-4">Role</th>
-                <th className="px-6 py-4">Semester</th>
-                <th className="px-6 py-4">Joined At</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th scope="col" className="px-6 py-4">Name</th>
+                <th scope="col" className="px-6 py-4">Role</th>
+                <th scope="col" className="px-6 py-4">Semester</th>
+                <th scope="col" className="px-6 py-4">Joined At</th>
+                <th scope="col" className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -101,6 +116,7 @@ export function AdminUsersPage() {
                           : 'text-gray-400 hover:text-red-400 hover:bg-red-500/10'
                       }`}
                       title={user.role === 'ADMIN' ? "Cannot delete admin" : "Delete User"}
+                      aria-label={user.role === 'ADMIN' ? 'Tidak dapat menghapus admin' : `Hapus pengguna ${user.fullName}`}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -118,6 +134,17 @@ export function AdminUsersPage() {
           </table>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={!!deleteTarget}
+        title="Hapus Pengguna"
+        message={`Apakah Anda yakin ingin menghapus pengguna ${deleteTarget?.name ?? ''}? Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Hapus"
+        cancelLabel="Batal"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { adminApi } from '../../api/admin.api';
 import { Users, FolderKanban, Calendar, FileText } from 'lucide-react';
+import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 
 export function AdminDashboardPage() {
   const [stats, setStats] = useState<any>(null);
@@ -21,7 +22,7 @@ export function AdminDashboardPage() {
   }, []);
 
   if (loading) {
-    return <div className="text-gray-400">Loading stats...</div>;
+    return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
   }
 
   const statCards = [
@@ -40,7 +41,7 @@ export function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat, i) => (
-          <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-6">
+          <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-6" aria-label={stat.label}>
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-400">{stat.label}</p>

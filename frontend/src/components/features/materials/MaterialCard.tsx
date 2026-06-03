@@ -56,11 +56,11 @@ export function MaterialCard({ material, canDelete, onDownload, onDelete }: Mate
 
         {/* Actions */}
         <div className="shrink-0 flex items-start gap-2">
-          <Button variant="secondary" size="sm" onClick={onDownload}>
+          <Button variant="secondary" size="sm" onClick={onDownload} aria-label={`Unduh ${material.title}`}>
             <Download className="w-4 h-4" />
           </Button>
           {canDelete && (
-            <Button variant="danger" size="sm" onClick={onDelete}>
+            <Button variant="danger" size="sm" onClick={onDelete} aria-label={`Hapus ${material.title}`}>
               <Trash2 className="w-4 h-4" />
             </Button>
           )}

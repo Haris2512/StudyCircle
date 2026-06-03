@@ -29,7 +29,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     <Modal isOpen={isOpen} onClose={onCancel} title={title} size="sm">
       <p className="text-sm text-gray-400 mb-6">{message}</p>
       <div className="flex items-center justify-end gap-3">
-        <Button variant="secondary" onClick={onCancel}>
+        <Button variant="secondary" onClick={onCancel} autoFocus>
           {cancelLabel}
         </Button>
         <Button

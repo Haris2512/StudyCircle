@@ -15,7 +15,7 @@ export const AppLayout: React.FC = () => {
       <Navbar onMenuToggle={handleMenuToggle} />
 
       {/* Main content area – offset for fixed sidebar (lg+) and navbar */}
-      <main className="pt-16 lg:pl-64 min-h-screen">
+      <main id="main-content" role="main" className="pt-16 lg:pl-64 min-h-screen">
         <div className="p-4 sm:p-6 lg:p-8">
           <Outlet />
         </div>

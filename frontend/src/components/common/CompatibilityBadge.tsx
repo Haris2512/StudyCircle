@@ -6,14 +6,14 @@ interface CompatibilityBadgeProps {
 }
 
 export const CompatibilityBadge: React.FC<CompatibilityBadgeProps> = ({ score, size = 'md' }) => {
-  let bgColor = 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300';
+  let bgColor = 'bg-gray-800 text-gray-300';
   let glowColor = '';
   
   if (score >= 80) {
-    bgColor = 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
+    bgColor = 'bg-green-900/30 text-green-400';
     glowColor = 'shadow-[0_0_10px_rgba(74,222,128,0.5)]';
   } else if (score >= 50) {
-    bgColor = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
+    bgColor = 'bg-yellow-900/30 text-yellow-400';
     glowColor = 'shadow-[0_0_10px_rgba(250,204,21,0.3)]';
   }
 
@@ -25,6 +25,7 @@ export const CompatibilityBadge: React.FC<CompatibilityBadgeProps> = ({ score, s
 
   return (
     <span
+      aria-label={`Compatibility score: ${score} percent`}
       className={`inline-flex items-center font-medium rounded-full ${bgColor} ${sizeClasses[size]} ${glowColor} transition-all duration-300`}
     >
       ⭐ {score}% Match

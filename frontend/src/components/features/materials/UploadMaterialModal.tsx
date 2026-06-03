@@ -105,7 +105,7 @@ export function UploadMaterialModal({ isOpen, onClose, groupId, onUploaded }: Up
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter description (optional)"
             rows={3}
-            className="w-full px-3.5 py-2.5 rounded-lg bg-[#1a2035] text-white placeholder-gray-500 border border-gray-700/50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-all duration-200 text-sm resize-none"
+            className="w-full px-3.5 py-2.5 rounded-lg bg-dark-card text-white placeholder-gray-500 border border-gray-700/50 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:outline-none transition-all duration-200 text-sm resize-none"
           />
         </div>
 
@@ -115,8 +115,12 @@ export function UploadMaterialModal({ isOpen, onClose, groupId, onUploaded }: Up
             File <span className="text-red-400 ml-1">*</span>
           </label>
           <div
-            className="border-2 border-dashed border-gray-700/50 rounded-lg p-6 text-center cursor-pointer hover:border-indigo-500/50 transition-colors"
+            className="border-2 border-dashed border-gray-700/50 rounded-lg p-6 text-center cursor-pointer hover:border-primary-500/50 transition-colors"
             onClick={() => fileInputRef.current?.click()}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click(); } }}
+            role="button"
+            tabIndex={0}
+            aria-label="Pilih file untuk diunggah"
           >
             <Upload className="w-8 h-8 text-gray-500 mx-auto mb-2" />
             {file ? (

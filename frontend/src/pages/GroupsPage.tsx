@@ -117,11 +117,12 @@ export function GroupsPage() {
 
       {/* Join Error Toast */}
       {joinError && (
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg flex items-center justify-between">
+        <div role="alert" aria-live="assertive" className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg flex items-center justify-between">
           <span>{joinError}</span>
           <button
             onClick={() => setJoinError(null)}
             className="text-red-400 hover:text-red-300 ml-3"
+            aria-label="Tutup peringatan"
           >
             ✕
           </button>

@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useId } from "react";
 
 export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -9,22 +9,30 @@ export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   ({ label, error, className = "", leadingIcon, trailingIcon, ...props }, ref) => {
+    const autoId = useId();
+    const inputId = props.id || props.name || autoId;
+    const errorId = inputId + "-error";
+
     return (
       <div className={`flex flex-col gap-1.5 ${className}`}>
         {label && (
-          <label htmlFor={props.id || props.name} className="text-sm font-medium text-gray-300">
+          <label htmlFor={inputId} className="text-sm font-medium text-gray-300">
             {label}
-            {props.required && <span className="text-red-400 ml-1">*</span>}
+            {props.required && <span className="text-red-400 ml-1" aria-hidden="true">*</span>}
           </label>
         )}
         <div className="relative flex items-center">
           {leadingIcon && (
-            <div className="absolute left-3.5 text-gray-400">
+            <div className="absolute left-3.5 text-gray-400" aria-hidden="true">
               {leadingIcon}
             </div>
           )}
           <input
             ref={ref}
+            id={inputId}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? errorId : undefined}
+            aria-required={props.required || undefined}
             {...props}
             className={`
               w-full py-3 rounded-xl
@@ -47,7 +55,11 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             </div>
           )}
         </div>
-        {error && <p className="text-xs text-red-400 mt-0.5">{error}</p>}
+        {error && (
+          <p id={errorId} role="alert" className="text-xs text-red-400 mt-0.5">
+            {error}
+          </p>
+        )}
       </div>
     );
   }

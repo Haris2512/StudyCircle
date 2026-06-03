@@ -17,20 +17,20 @@ export function MemberList({ members, isAdmin, currentUserId, onRemove }: Member
       <table className="w-full text-sm text-left">
         <thead>
           <tr className="border-b border-gray-700/50">
-            <th className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+            <th scope="col" className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
               Name
             </th>
-            <th className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+            <th scope="col" className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
               Username
             </th>
-            <th className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+            <th scope="col" className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
               Role
             </th>
-            <th className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+            <th scope="col" className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
               Joined
             </th>
             {isAdmin && (
-              <th className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider text-right">
+              <th scope="col" className="py-3 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider text-right">
                 Actions
               </th>
             )}
@@ -60,6 +60,7 @@ export function MemberList({ members, isAdmin, currentUserId, onRemove }: Member
                       variant="danger"
                       size="sm"
                       onClick={() => onRemove(member.userId)}
+                      aria-label={`Keluarkan ${member.user.fullName}`}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       Remove

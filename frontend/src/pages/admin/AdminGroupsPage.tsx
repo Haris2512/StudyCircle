@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { adminApi } from '../../api/admin.api';
 import { Trash2, Users } from 'lucide-react';
+import { LoadingSpinner } from '../../components/common/LoadingSpinner';
+import { ConfirmDialog } from '../../components/common/ConfirmDialog';
 
 export function AdminGroupsPage() {
   const [groups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteTarget, setDeleteTarget] = useState<{id: string, name: string} | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const fetchGroups = async () => {
     try {
@@ -22,18 +26,23 @@ export function AdminGroupsPage() {
     fetchGroups();
   }, []);
 
-  const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete group "${name}"? This action cannot be undone.`)) return;
+  const handleDelete = (id: string, name: string) => setDeleteTarget({id, name});
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
     try {
-      await adminApi.deleteGroup(id);
-      setGroups(groups.filter(g => g.id !== id));
+      setDeleteError(null);
+      await adminApi.deleteGroup(deleteTarget.id);
+      setGroups(groups.filter(g => g.id !== deleteTarget.id));
+      setDeleteTarget(null);
     } catch (error: any) {
-      alert(error.response?.data?.message || 'Failed to delete group');
+      setDeleteTarget(null);
+      setDeleteError(error.response?.data?.message || 'Failed to delete group');
     }
   };
 
   if (loading) {
-    return <div className="text-gray-400">Loading groups...</div>;
+    return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
   }
 
   return (
@@ -45,16 +54,22 @@ export function AdminGroupsPage() {
         </div>
       </div>
 
+      {deleteError && (
+        <div role="alert" className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">
+          {deleteError}
+        </div>
+      )}
+
       <div className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-400">
             <thead className="text-xs uppercase bg-black/20 text-gray-400">
               <tr>
-                <th className="px-6 py-4">Group Name</th>
-                <th className="px-6 py-4">Subject</th>
-                <th className="px-6 py-4">Creator</th>
-                <th className="px-6 py-4 text-center">Members</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th scope="col" className="px-6 py-4">Group Name</th>
+                <th scope="col" className="px-6 py-4">Subject</th>
+                <th scope="col" className="px-6 py-4">Creator</th>
+                <th scope="col" className="px-6 py-4 text-center">Members</th>
+                <th scope="col" className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -81,6 +96,7 @@ export function AdminGroupsPage() {
                       onClick={() => handleDelete(group.id, group.name)}
                       className="p-2 rounded-lg transition-colors text-gray-400 hover:text-red-400 hover:bg-red-500/10"
                       title="Delete Group"
+                      aria-label={`Hapus grup ${group.name}`}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -98,6 +114,17 @@ export function AdminGroupsPage() {
           </table>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={!!deleteTarget}
+        title="Hapus Grup"
+        message={`Apakah Anda yakin ingin menghapus grup "${deleteTarget?.name ?? ''}"? Tindakan ini tidak dapat dibatalkan.`}
+        confirmLabel="Hapus"
+        cancelLabel="Batal"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </div>
   );
 }

@@ -88,7 +88,7 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {apiError && (
-            <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg mb-6 text-sm">
+            <div role="alert" aria-live="assertive" className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg mb-6 text-sm">
               {apiError}
             </div>
           )}
@@ -115,6 +115,7 @@ export const LoginPage: React.FC = () => {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="hover:text-white transition-colors"
+                    aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -147,6 +148,7 @@ export const LoginPage: React.FC = () => {
             type="button"
             className="w-full mt-6 bg-dark-card border border-dark-border hover:bg-white/5 transition-colors text-white font-medium py-3 rounded-full flex items-center justify-center gap-3"
             onClick={() => alert("Google Login Not Implemented Yet")}
+            aria-label="Masuk dengan Google (belum tersedia)"
           >
             <svg viewBox="0 0 24 24" className="w-5 h-5">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>

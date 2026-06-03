@@ -12,6 +12,9 @@ interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
   className?: string;
+  autoFocus?: boolean;
+  "aria-pressed"?: boolean;
+  "aria-label"?: string;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
@@ -42,6 +45,9 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   children,
   className = "",
+  autoFocus,
+  "aria-pressed": ariaPressed,
+  "aria-label": ariaLabel,
 }) => {
   const isDisabled = disabled || loading;
 
@@ -50,10 +56,14 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={isDisabled}
+      autoFocus={autoFocus}
+      aria-pressed={ariaPressed}
+      aria-label={ariaLabel}
+      aria-busy={loading || undefined}
       className={`
         inline-flex items-center justify-center font-medium
         transition-all duration-200 ease-in-out
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-bg
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-bg
         ${variantStyles[variant]}
         ${sizeStyles[size]}
         ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer active:scale-[0.95] hover:-translate-y-0.5"}
@@ -61,26 +71,30 @@ export const Button: React.FC<ButtonProps> = ({
       `}
     >
       {loading && (
-        <svg
-          className="animate-spin h-4 w-4 shrink-0"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-          />
-        </svg>
+        <>
+          <svg
+            className="animate-spin h-4 w-4 shrink-0"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
+          </svg>
+          <span className="sr-only">Memuat...</span>
+        </>
       )}
       {children}
     </button>

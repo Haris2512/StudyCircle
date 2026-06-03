@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { DashboardPage } from '../pages/DashboardPage';
@@ -22,17 +22,17 @@ import { AdminGroupsPage } from '../pages/admin/AdminGroupsPage';
 
 function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-white flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-dark-bg text-white flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-4">Welcome to StudyCircle</h1>
       <p className="text-gray-400 mb-8 text-center max-w-md">
         Collaborate, learn, and grow together with your study groups.
       </p>
-      <a
-        href="/login"
-        className="bg-indigo-600 px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+      <Link
+        to="/login"
+        className="bg-gradient-to-r from-primary-500 to-secondary-500 px-6 py-2 rounded-lg hover:from-primary-400 hover:to-secondary-pink transition-colors text-dark-bg font-bold"
       >
         Get Started
-      </a>
+      </Link>
     </div>
   );
 }

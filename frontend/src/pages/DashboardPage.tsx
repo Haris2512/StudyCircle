@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ArrowRight } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
@@ -18,6 +19,7 @@ export function DashboardPage() {
   
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [joinError, setJoinError] = useState<string | null>(null);
 
   const isLoading = groupsLoading;
 
@@ -77,7 +79,7 @@ export function DashboardPage() {
       </div>
 
       {/* Sesi Terdekat Hero Card */}
-      <section>
+      <section aria-label="Sesi terdekat">
         <h2 className="text-xl font-bold text-white mb-4">Sesi Terdekat</h2>
         {upcomingSessionGroup ? (
           <div className="glass-panel rounded-3xl p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden group hover:shadow-[0_8px_32px_0_rgba(203,166,247,0.2)] transition-shadow duration-500">
@@ -113,7 +115,7 @@ export function DashboardPage() {
       </section>
 
       {/* Temukan Grup Baru Section */}
-      <section className="animate-fade-in-up animate-delay-100">
+      <section aria-label="Temukan grup baru" className="animate-fade-in-up animate-delay-100">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
           <h2 className="text-xl font-bold text-white">Temukan Grup Baru</h2>
           
@@ -135,6 +137,19 @@ export function DashboardPage() {
           className="mb-6"
         />
 
+        {joinError && (
+          <div role="alert" aria-live="assertive" className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <span>{joinError}</span>
+            <button
+              onClick={() => setJoinError(null)}
+              className="text-red-400 hover:text-red-300 ml-3"
+              aria-label="Tutup peringatan"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
         {filteredGroups.length === 0 ? (
           <EmptyState
             title="Grup tidak ditemukan"
@@ -151,10 +166,11 @@ export function DashboardPage() {
                   isMember={isMember}
                   onJoin={async () => {
                     try {
+                      setJoinError(null);
                       await joinGroup(group.id);
                       navigate(`/groups/${group.id}`);
                     } catch (err: any) {
-                      alert(err.response?.data?.message || 'Gagal bergabung dengan grup');
+                      setJoinError(err.response?.data?.message || 'Gagal bergabung dengan grup');
                     }
                   }}
                   onClick={() => navigate(`/groups/${group.id}`)}

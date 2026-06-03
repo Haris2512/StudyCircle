@@ -102,7 +102,7 @@ export function ProfilePage() {
       <Card className="p-6">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {/* Initials Avatar */}
-          <div className="shrink-0 w-20 h-20 rounded-full bg-indigo-600 flex items-center justify-center text-2xl font-bold text-white">
+          <div className="shrink-0 w-20 h-20 rounded-full bg-primary-500 flex items-center justify-center text-2xl font-bold text-white" role="img" aria-label="Avatar">
             {initials}
           </div>
 
@@ -127,7 +127,7 @@ export function ProfilePage() {
                     onChange={(e) => setEditBio(e.target.value)}
                     placeholder="Tell us about yourself..."
                     rows={3}
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#1a2035] text-white placeholder-gray-500 border border-gray-700/50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-all duration-200 text-sm resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-dark-card text-white placeholder-gray-500 border border-gray-700/50 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 focus:outline-none transition-all duration-200 text-sm resize-none"
                   />
                 </div>
                 <div className="flex gap-3">
@@ -153,6 +153,7 @@ export function ProfilePage() {
                   <button
                     onClick={() => setIsEditing(true)}
                     className="text-gray-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10"
+                    aria-label="Ubah profil"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
@@ -203,6 +204,7 @@ export function ProfilePage() {
               variant={selectedStyle === style ? 'primary' : 'secondary'}
               loading={savingStyle && selectedStyle === style}
               onClick={() => handleUpdateLearningStyle(style)}
+              aria-pressed={selectedStyle === style}
             >
               {style}
             </Button>

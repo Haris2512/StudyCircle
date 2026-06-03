@@ -56,7 +56,7 @@ export function SessionDetailPage() {
   if (error && !session) {
     return (
       <div className="text-center py-16">
-        <p className="text-red-400 mb-4">{error}</p>
+        <p role="alert" className="text-red-400 mb-4">{error}</p>
         <Button onClick={() => navigate(-1)}>Go Back</Button>
       </div>
     );
@@ -132,6 +132,7 @@ export function SessionDetailPage() {
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+        aria-label="Kembali"
       >
         <ArrowLeft className="w-4 h-4" />
         Back
@@ -205,7 +206,7 @@ export function SessionDetailPage() {
 
       {/* Error */}
       {error && (
-        <p className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">{error}</p>
+        <p role="alert" className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">{error}</p>
       )}
 
       {/* Attendance List */}
@@ -224,16 +225,16 @@ export function SessionDetailPage() {
             <table className="w-full text-sm text-left">
               <thead>
                 <tr className="border-b border-gray-700/50">
-                  <th className="py-2.5 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  <th scope="col" className="py-2.5 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="py-2.5 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  <th scope="col" className="py-2.5 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="py-2.5 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  <th scope="col" className="py-2.5 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
                     Joined At
                   </th>
-                  <th className="py-2.5 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  <th scope="col" className="py-2.5 px-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
                     Duration
                   </th>
                 </tr>

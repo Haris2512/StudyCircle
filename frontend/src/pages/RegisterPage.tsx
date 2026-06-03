@@ -95,7 +95,7 @@ export const RegisterPage: React.FC = () => {
           </div>
 
           {apiError && (
-            <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg mb-6 text-sm">
+            <div role="alert" aria-live="assertive" className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg mb-6 text-sm">
               {apiError}
             </div>
           )}
@@ -146,6 +146,7 @@ export const RegisterPage: React.FC = () => {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="hover:text-white transition-colors"
+                  aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>

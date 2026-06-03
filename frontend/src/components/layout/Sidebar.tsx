@@ -36,10 +36,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Sidebar */}
       <aside
+        aria-label="Sidebar navigasi"
         className={`fixed top-0 left-0 z-50 h-full w-64 lg:h-[calc(100vh-2rem)] lg:top-4 lg:left-4 lg:rounded-3xl glass-panel border-r-0 flex flex-col transition-all duration-300 ease-in-out lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
@@ -72,7 +74,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Navigation links */}
-        <nav className="flex-1 overflow-y-auto py-2 space-y-1">
+        <nav className="flex-1 overflow-y-auto py-2 space-y-1" aria-label="Navigasi utama">
           {navItems.map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}

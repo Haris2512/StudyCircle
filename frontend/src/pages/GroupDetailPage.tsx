@@ -166,7 +166,7 @@ export function GroupDetailPage() {
   if (error && !group) {
     return (
       <div className="text-center py-16">
-        <p className="text-red-400 mb-4">{error}</p>
+        <p role="alert" className="text-red-400 mb-4">{error}</p>
         <Button onClick={() => navigate('/groups')}>Kembali ke Grup</Button>
       </div>
     );
@@ -180,6 +180,7 @@ export function GroupDetailPage() {
       <button
         onClick={() => navigate('/groups')}
         className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+        aria-label="Kembali ke daftar grup"
       >
         <ArrowLeft className="w-4 h-4" />
         Kembali ke Grup
@@ -271,7 +272,7 @@ export function GroupDetailPage() {
 
       {/* Error */}
       {error && (
-        <p className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">{error}</p>
+        <p role="alert" className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">{error}</p>
       )}
 
       {/* Tabs */}
