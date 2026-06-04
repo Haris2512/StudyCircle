@@ -139,6 +139,17 @@ export function ProfilePage() {
                   <p className="text-sm text-gray-400 mt-1">{profile.bio}</p>
                 )}
 
+                <div className="flex items-center gap-3 mt-4">
+                  <div className="px-3 py-1.5 rounded-lg bg-primary-500/10 border border-primary-500/20">
+                    <span className="text-xs text-primary-300 font-semibold block">Level</span>
+                    <span className="text-lg font-bold text-primary-400">{profile?.level || 1}</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-lg bg-secondary-500/10 border border-secondary-500/20">
+                    <span className="text-xs text-secondary-300 font-semibold block">Points</span>
+                    <span className="text-lg font-bold text-secondary-400">{profile?.points || 0}</span>
+                  </div>
+                </div>
+
                 <div className="flex flex-col gap-2 mt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-400">
                     <User className="w-4 h-4 shrink-0" />

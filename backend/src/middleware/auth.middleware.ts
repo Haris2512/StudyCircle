@@ -25,6 +25,26 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
+export const optionalAuth = (req: Request, res: Response, next: NextFunction) => {
+  let token = req.cookies?.token;
+
+  if (!token && req.headers.authorization?.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return next();
+  }
+
+  try {
+    const payload = verifyToken(token);
+    (req as any).user = payload;
+  } catch (error) {
+    // Just ignore invalid tokens for optional auth
+  }
+  next();
+};
+
 export const requireAdmin = async (req: Request, res: Response, next: NextFunction) => {
   requireAuth(req, res, async () => {
     try {

@@ -9,6 +9,7 @@ import { ProgressPage } from '../pages/ProgressPage';
 import { ProfilePage } from '../pages/ProfilePage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { AppLayout } from '../components/layout/AppLayout';
+import { SharedLayout } from '../components/layout/SharedLayout';
 import { GuestRoute } from './GuestRoute';
 import { AdminRoute } from './AdminRoute';
 import { AdminLayout } from '../components/layout/AdminLayout';
@@ -52,12 +53,16 @@ export function AppRouter() {
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
+        {/* Shared Routes (Accessible by both Guests and Users) */}
+        <Route element={<SharedLayout />}>
+          <Route path="/groups" element={<GroupsPage />} />
+          <Route path="/groups/:groupId" element={<GroupDetailPage />} />
+        </Route>
+
         {/* Protected routes wrapped in AppLayout */}
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/groups" element={<GroupsPage />} />
-            <Route path="/groups/:groupId" element={<GroupDetailPage />} />
             <Route path="/sessions/:sessionId" element={<SessionDetailPage />} />
             <Route path="/progress" element={<ProgressPage />} />
             <Route path="/profile" element={<ProfilePage />} />

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { GroupsController } from './groups.controller';
-import { requireAuth } from '../../middleware/auth.middleware';
+import { requireAuth, optionalAuth } from '../../middleware/auth.middleware';
 import { validate } from '../../middleware/validate.middleware';
 import {
   createGroupSchema,
@@ -14,24 +14,21 @@ import { groupMaterialsRouter } from '../materials/materials.routes';
 const router = Router();
 const groupsController = new GroupsController();
 
-// All routes require authentication
-router.use(requireAuth);
-
 // Group CRUD
-router.post('/', validate(createGroupSchema), groupsController.createGroup);
-router.get('/', groupsController.getGroups);
-router.get('/:groupId', validate(groupIdParamSchema), groupsController.getGroupById);
-router.patch('/:groupId', validate(updateGroupSchema), groupsController.updateGroup);
-router.delete('/:groupId', validate(groupIdParamSchema), groupsController.deleteGroup);
+router.post('/', requireAuth, validate(createGroupSchema), groupsController.createGroup);
+router.get('/', optionalAuth, groupsController.getGroups);
+router.get('/:groupId', optionalAuth, validate(groupIdParamSchema), groupsController.getGroupById);
+router.patch('/:groupId', requireAuth, validate(updateGroupSchema), groupsController.updateGroup);
+router.delete('/:groupId', requireAuth, validate(groupIdParamSchema), groupsController.deleteGroup);
 
 // Membership
-router.post('/:groupId/join', validate(groupIdParamSchema), groupsController.joinGroup);
-router.post('/:groupId/leave', validate(groupIdParamSchema), groupsController.leaveGroup);
-router.get('/:groupId/members', validate(groupIdParamSchema), groupsController.getMembers);
-router.delete('/:groupId/members/:userId', validate(removeMemberSchema), groupsController.removeMember);
+router.post('/:groupId/join', requireAuth, validate(groupIdParamSchema), groupsController.joinGroup);
+router.post('/:groupId/leave', requireAuth, validate(groupIdParamSchema), groupsController.leaveGroup);
+router.get('/:groupId/members', optionalAuth, validate(groupIdParamSchema), groupsController.getMembers);
+router.delete('/:groupId/members/:userId', requireAuth, validate(removeMemberSchema), groupsController.removeMember);
 
 // Chats
-router.get('/:groupId/chats', validate(groupIdParamSchema), groupsController.getChats);
+router.get('/:groupId/chats', requireAuth, validate(groupIdParamSchema), groupsController.getChats);
 
 // Sessions
 router.use('/:groupId/sessions', groupSessionsRouter);

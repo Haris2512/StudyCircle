@@ -21,7 +21,7 @@ export class NotificationsController {
   markAsRead = async (req: Request, res: Response) => {
     try {
       const userId = req.user!.userId;
-      const { notificationId } = req.params;
+      const notificationId = req.params.notificationId as string;
       await this.service.markAsRead(notificationId, userId);
       res.status(200).json({ message: 'Notification marked as read' });
     } catch (error: any) {
@@ -42,7 +42,7 @@ export class NotificationsController {
   deleteNotification = async (req: Request, res: Response) => {
     try {
       const userId = req.user!.userId;
-      const { notificationId } = req.params;
+      const notificationId = req.params.notificationId as string;
       await this.service.deleteNotification(notificationId, userId);
       res.status(200).json({ message: 'Notification deleted' });
     } catch (error: any) {

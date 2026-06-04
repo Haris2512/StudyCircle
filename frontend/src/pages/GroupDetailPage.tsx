@@ -299,83 +299,114 @@ export function GroupDetailPage() {
         {/* Sessions Tab */}
         {activeTab === 'sessions' && (
           <div className="space-y-6">
-            {isAdmin && (
-              <div className="flex justify-end">
-                <Button size="sm" onClick={() => setShowCreateSession(true)}>
-                  <Plus className="w-4 h-4 mr-1.5" />
-                  Buat Jadwal Diskusi
-                </Button>
-              </div>
-            )}
-            {sessionsLoading ? (
-              <LoadingSpinner className="py-12" />
-            ) : sessions.length === 0 ? (
+            {!user ? (
               <EmptyState
-                icon={<Calendar className="w-10 h-10" />}
-                title="Belum ada sesi diskusi"
-                description="Jadwalkan sesi belajar pertama untuk grup ini."
+                icon={<LogOut className="w-12 h-12" />}
+                title="Login Diperlukan"
+                description="Anda harus login untuk melihat jadwal sesi diskusi grup ini."
+                action={<Button onClick={() => navigate('/login')}>Login untuk Bergabung</Button>}
               />
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {sessions.map((session: any) => (
-                  <SessionCard
-                    key={session.id}
-                    session={session}
-                    onClick={() => navigate(`/sessions/${session.id}`)}
+              <>
+                {isAdmin && (
+                  <div className="flex justify-end">
+                    <Button size="sm" onClick={() => setShowCreateSession(true)}>
+                      <Plus className="w-4 h-4 mr-1.5" />
+                      Buat Jadwal Diskusi
+                    </Button>
+                  </div>
+                )}
+                {sessionsLoading ? (
+                  <LoadingSpinner className="py-12" />
+                ) : sessions.length === 0 ? (
+                  <EmptyState
+                    icon={<Calendar className="w-10 h-10" />}
+                    title="Belum ada sesi diskusi"
+                    description="Jadwalkan sesi belajar pertama untuk grup ini."
                   />
-                ))}
-              </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {sessions.map((session: any) => (
+                      <SessionCard
+                        key={session.id}
+                        session={session}
+                        onClick={() => navigate(`/sessions/${session.id}`)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
 
         {/* Chat Tab */}
         {activeTab === 'chat' && groupId && (
-          <GroupChat groupId={groupId} />
+          !user ? (
+            <EmptyState
+              icon={<LogOut className="w-12 h-12" />}
+              title="Login Diperlukan"
+              description="Anda harus login untuk melihat dan mengirim pesan di grup ini."
+              action={<Button onClick={() => navigate('/login')}>Login untuk Bergabung</Button>}
+            />
+          ) : (
+            <GroupChat groupId={groupId} />
+          )
         )}
 
         {/* Materials Tab */}
         {activeTab === 'materials' && (
           <div className="space-y-6">
-            <div className="flex justify-end">
-              <Button size="sm" onClick={() => setShowUploadMaterial(true)}>
-                <Plus className="w-4 h-4 mr-1.5" />
-                Unggah Materi
-              </Button>
-            </div>
-            {materialsLoading ? (
-              <LoadingSpinner className="py-12" />
-            ) : materials.length === 0 ? (
+            {!user ? (
               <EmptyState
-                title="Belum ada materi"
-                description="Unggah materi belajar untuk grup ini."
+                icon={<LogOut className="w-12 h-12" />}
+                title="Login Diperlukan"
+                description="Anda harus login untuk melihat dan mengunduh materi grup ini."
+                action={<Button onClick={() => navigate('/login')}>Login untuk Bergabung</Button>}
               />
             ) : (
-              <div className="space-y-4">
-                {materials.map((material) => (
-                  <MaterialCard
-                    key={material.id}
-                    material={material}
-                    canDelete={isAdmin || material.uploaderId === user?.id}
-                    onDownload={() => downloadMaterial(material.id)}
-                    onDelete={() => setMaterialToDelete(material.id)}
+              <>
+                <div className="flex justify-end">
+                  <Button size="sm" onClick={() => setShowUploadMaterial(true)}>
+                    <Plus className="w-4 h-4 mr-1.5" />
+                    Unggah Materi
+                  </Button>
+                </div>
+                {materialsLoading ? (
+                  <LoadingSpinner className="py-12" />
+                ) : materials.length === 0 ? (
+                  <EmptyState
+                    title="Belum ada materi"
+                    description="Unggah materi belajar untuk grup ini."
                   />
-                ))}
+                ) : (
+                  <div className="space-y-4">
+                    {materials.map((material) => (
+                      <MaterialCard
+                        key={material.id}
+                        material={material}
+                        canDelete={isAdmin || material.uploaderId === user?.id}
+                        onDownload={() => downloadMaterial(material.id)}
+                        onDelete={() => setMaterialToDelete(material.id)}
+                      />
+                    ))}
 
-                {/* Load More Materials */}
-                {hasNextMaterialsPage && (
-                  <div className="flex justify-center pt-4">
-                    <Button
-                      variant="secondary"
-                      onClick={() => fetchNextMaterialsPage()}
-                      disabled={isFetchingNextMaterialsPage}
-                      loading={isFetchingNextMaterialsPage}
-                    >
-                      Muat Lebih Banyak Materi
-                    </Button>
+                    {/* Load More Materials */}
+                    {hasNextMaterialsPage && (
+                      <div className="flex justify-center pt-4">
+                        <Button
+                          variant="secondary"
+                          onClick={() => fetchNextMaterialsPage()}
+                          disabled={isFetchingNextMaterialsPage}
+                          loading={isFetchingNextMaterialsPage}
+                        >
+                          Muat Lebih Banyak Materi
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
+              </>
             )}
           </div>
         )}

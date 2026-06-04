@@ -81,13 +81,8 @@ export class GroupsService {
     return this.repository.removeMember(groupId, userId);
   }
 
-  async getMembers(groupId: string, userId: string) {
-    // Ensure user is member
-    const isMember = await this.repository.findMember(groupId, userId);
-    if (!isMember) {
-      throw new Error('Forbidden: You are not a member of this group');
-    }
-
+  async getMembers(groupId: string, userId?: string) {
+    // Guests and non-members can view the member list
     return this.repository.findGroupMembers(groupId);
   }
 

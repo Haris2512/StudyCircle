@@ -113,7 +113,7 @@ export class GroupsController {
 
   async getMembers(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = req.user!.userId;
+      const userId = req.user?.userId;
       const groupId = req.params.groupId as string;
       const members = await groupsService.getMembers(groupId, userId);
       res.status(200).json({ success: true, data: members });

@@ -93,10 +93,12 @@ export function GroupsPage() {
           <h1 className="text-2xl font-bold text-white">Grup Belajar</h1>
           <p className="text-gray-400 text-sm mt-1">Temukan dan bergabung dengan grup yang sesuai.</p>
         </div>
-        <Button onClick={() => setShowCreateModal(true)}>
-          <Plus className="w-4 h-4 mr-2" />
-          Buat Grup Baru
-        </Button>
+        {user && (
+          <Button onClick={() => setShowCreateModal(true)}>
+            <Plus className="w-4 h-4 mr-2" />
+            Buat Grup Baru
+          </Button>
+        )}
       </div>
 
       {/* Filters and Search */}
@@ -143,7 +145,7 @@ export function GroupsPage() {
               : 'Jadilah yang pertama membuat grup belajar!'
           }
           action={
-            !searchQuery ? (
+            !searchQuery && user ? (
               <Button onClick={() => setShowCreateModal(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 Buat Grup
