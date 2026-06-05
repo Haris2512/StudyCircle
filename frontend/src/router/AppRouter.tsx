@@ -18,26 +18,7 @@ import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage';
 import { AdminGroupsPage } from '../pages/admin/AdminGroupsPage';
 
-// ---------------------------------------------------------------------------
-// Landing placeholder (kept inline — no dedicated page needed)
-// ---------------------------------------------------------------------------
-
-function LandingPage() {
-  return (
-    <div className="min-h-screen bg-dark-bg text-white flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-4">Welcome to StudyCircle</h1>
-      <p className="text-gray-400 mb-8 text-center max-w-md">
-        Collaborate, learn, and grow together with your study groups.
-      </p>
-      <Link
-        to="/login"
-        className="bg-gradient-to-r from-primary-500 to-secondary-500 px-6 py-2 rounded-lg hover:from-primary-400 hover:to-secondary-pink transition-colors text-dark-bg font-bold"
-      >
-        Get Started
-      </Link>
-    </div>
-  );
-}
+import { LandingPage } from '../pages/LandingPage';
 
 // ---------------------------------------------------------------------------
 // Router
