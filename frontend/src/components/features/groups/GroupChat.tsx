@@ -131,7 +131,7 @@ export function GroupChat({ groupId }: GroupChatProps) {
 
       <form
         onSubmit={handleSendMessage}
-        className="p-3 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 flex gap-2"
+        className="p-3 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 flex items-center gap-2"
       >
         <input
           type="text"
@@ -140,9 +140,14 @@ export function GroupChat({ groupId }: GroupChatProps) {
           placeholder="Ketik pesan..."
           className="flex-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-white"
         />
-        <Button type="submit" disabled={!newMessage.trim()} className="rounded-full w-10 h-10 p-0 flex items-center justify-center">
+        <button
+          type="submit"
+          disabled={!newMessage.trim()}
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 text-dark-bg hover:from-primary-400 hover:to-secondary-pink transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(203,166,247,0.4)]"
+          aria-label="Kirim pesan"
+        >
           <Send className="h-4 w-4" />
-        </Button>
+        </button>
       </form>
     </div>
   );
