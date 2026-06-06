@@ -11,7 +11,7 @@ export function LandingPage() {
             <BrainCircuit className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-            StudyCircle
+            StudySync
           </span>
         </div>
         <div className="flex items-center gap-4">
@@ -47,7 +47,7 @@ export function LandingPage() {
           </h1>
           
           <p className="text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Mahasiswa sering susah koordinasi *study group*. StudyCircle hadir untuk mencocokkan grup belajar Anda secara otomatis dengan AI berdasarkan minat, gaya belajar, dan zona waktu.
+            Mahasiswa sering susah koordinasi *study group*. StudySync hadir untuk mencocokkan grup belajar Anda secara otomatis dengan AI berdasarkan minat, gaya belajar, dan zona waktu.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -126,7 +126,7 @@ export function LandingPage() {
 
       {/* Footer */}
       <footer className="py-8 text-center text-sm text-gray-500 border-t border-white/5 mt-auto">
-        <p>&copy; {new Date().getFullYear()} StudyCircle. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} StudySync. All rights reserved.</p>
       </footer>
     </div>
   );
