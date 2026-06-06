@@ -1,4 +1,4 @@
-import { Download, Trash2, FileText, FileSpreadsheet, Presentation } from 'lucide-react';
+import { Download, Trash2, Eye, FileText, FileSpreadsheet, Presentation } from 'lucide-react';
 import { Card } from '../../common/Card';
 import { Button } from '../../common/Button';
 import { formatDate } from '../../../utils/formatDate';
@@ -9,6 +9,7 @@ interface MaterialCardProps {
   material: Material;
   canDelete: boolean;
   onDownload: () => void;
+  onView: () => void;
   onDelete: () => void;
 }
 
@@ -22,7 +23,9 @@ function getFileIcon(fileType?: string) {
   return <FileText className="w-8 h-8 text-indigo-400" />;
 }
 
-export function MaterialCard({ material, canDelete, onDownload, onDelete }: MaterialCardProps) {
+export function MaterialCard({ material, canDelete, onDownload, onView, onDelete }: MaterialCardProps) {
+  const isPdf = material.fileType?.toLowerCase().includes('pdf') || material.fileUrl?.toLowerCase().endsWith('.pdf');
+
   return (
     <Card className="p-5">
       <div className="flex gap-4">
@@ -56,6 +59,11 @@ export function MaterialCard({ material, canDelete, onDownload, onDelete }: Mate
 
         {/* Actions */}
         <div className="shrink-0 flex items-start gap-2">
+          {isPdf && (
+            <Button variant="secondary" size="sm" onClick={onView} aria-label={`Lihat ${material.title}`}>
+              <Eye className="w-4 h-4" />
+            </Button>
+          )}
           <Button variant="secondary" size="sm" onClick={onDownload} aria-label={`Unduh ${material.title}`}>
             <Download className="w-4 h-4" />
           </Button>
