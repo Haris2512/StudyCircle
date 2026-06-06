@@ -192,6 +192,11 @@ export function GroupDetailPage() {
     }
   };
 
+  const viewMaterial = (materialId: string) => {
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+    window.open(`${baseUrl}/materials/${materialId}/download?view=true`, '_blank');
+  };
+
   const loading = detailLoading || membersLoading;
 
   if (loading) {
@@ -406,6 +411,7 @@ export function GroupDetailPage() {
                         material={material}
                         canDelete={isAdmin || material.uploaderId === user?.id}
                         onDownload={() => downloadMaterial(material.id)}
+                        onView={() => viewMaterial(material.id)}
                         onDelete={() => setMaterialToDelete(material.id)}
                       />
                     ))}

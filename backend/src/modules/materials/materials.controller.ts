@@ -116,12 +116,18 @@ export class MaterialsController {
     try {
       const materialId = req.params.materialId as string;
       const userId = req.user!.userId;
+      const view = req.query.view === 'true';
 
       const downloadPathOrUrl = await this.service.getMaterialDownloadPath(userId, materialId);
       if (downloadPathOrUrl.startsWith('http://') || downloadPathOrUrl.startsWith('https://')) {
         res.redirect(downloadPathOrUrl);
       } else {
-        res.download(downloadPathOrUrl);
+        if (view) {
+          // Stream the file inline so the browser can preview/view it (especially PDFs)
+          res.sendFile(downloadPathOrUrl);
+        } else {
+          res.download(downloadPathOrUrl);
+        }
       }
     } catch (error: any) {
       // Return 403 or 404 for security depending on if they are a member, but our service throws Error

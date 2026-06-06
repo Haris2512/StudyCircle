@@ -88,9 +88,7 @@ export function GroupsPage() {
     }
   };
 
-  if (isLoading) {
-    return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
-  }
+
 
   return (
     <div className="space-y-6 animate-fade-in-up">
@@ -142,7 +140,11 @@ export function GroupsPage() {
       )}
 
       {/* Groups Grid */}
-      {filteredGroups.length === 0 ? (
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+          <LoadingSpinner size="lg" />
+        </div>
+      ) : filteredGroups.length === 0 ? (
         <EmptyState
           icon={<Users className="w-12 h-12" />}
           title={searchQuery ? 'Grup tidak ditemukan' : 'Belum ada grup'}
