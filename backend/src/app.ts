@@ -5,8 +5,10 @@ import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import { env } from './config/env';
 import { errorHandler } from './middleware/error.middleware';
+import { setupSwagger } from './config/swagger';
 
 const app = express();
+setupSwagger(app);
 
 // Security Middleware
 app.use(helmet());
@@ -29,7 +31,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Removed static file serving for uploads to enforce authorization
-// Health check route
+
+/**
+ * @openapi
+ * /health:
+ *   get:
+ *     summary: Health Check
+ *     description: Returns the health status of the server
+ *     responses:
+ *       200:
+ *         description: Server is healthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ */
 app.get('/health', (req, res) => {
   res.status(200).json({ success: true, message: 'Server is healthy' });
 });
