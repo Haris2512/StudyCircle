@@ -54,6 +54,7 @@ export function AppRouter() {
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute />}>
             <Route element={<AdminLayout />}>
+              <Route index element={<Navigate to="dashboard" replace />} />
               <Route path="dashboard" element={<AdminDashboardPage />} />
               <Route path="users" element={<AdminUsersPage />} />
               <Route path="groups" element={<AdminGroupsPage />} />

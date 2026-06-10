@@ -15,10 +15,124 @@ const router = Router();
 const groupsController = new GroupsController();
 
 // Group CRUD
+/**
+ * @openapi
+ * tags:
+ *   name: Groups
+ *   description: Group management endpoints
+ */
+
+/**
+ * @openapi
+ * /api/v1/groups:
+ *   post:
+ *     tags: [Groups]
+ *     summary: Create a new group
+ *     security:
+ *       - bearerAuth: []
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - subjectId
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               subjectId:
+ *                 type: string
+ *               tags:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               maxMembers:
+ *                 type: number
+ *               isPrivate:
+ *                 type: boolean
+ *     responses:
+ *       201:
+ *         description: Group created successfully
+ */
 router.post('/', requireAuth, validate(createGroupSchema), groupsController.createGroup);
+
+/**
+ * @openapi
+ * /api/v1/groups:
+ *   get:
+ *     tags: [Groups]
+ *     summary: Get all groups
+ *     responses:
+ *       200:
+ *         description: List of groups
+ */
 router.get('/', optionalAuth, groupsController.getGroups);
+
+/**
+ * @openapi
+ * /api/v1/groups/{groupId}:
+ *   get:
+ *     tags: [Groups]
+ *     summary: Get a group by ID
+ *     parameters:
+ *       - in: path
+ *         name: groupId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Group details
+ *       404:
+ *         description: Group not found
+ */
 router.get('/:groupId', optionalAuth, validate(groupIdParamSchema), groupsController.getGroupById);
+
+/**
+ * @openapi
+ * /api/v1/groups/{groupId}:
+ *   patch:
+ *     tags: [Groups]
+ *     summary: Update a group
+ *     security:
+ *       - bearerAuth: []
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: groupId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Group updated
+ */
 router.patch('/:groupId', requireAuth, validate(updateGroupSchema), groupsController.updateGroup);
+
+/**
+ * @openapi
+ * /api/v1/groups/{groupId}:
+ *   delete:
+ *     tags: [Groups]
+ *     summary: Delete a group
+ *     security:
+ *       - bearerAuth: []
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: groupId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Group deleted
+ */
 router.delete('/:groupId', requireAuth, validate(groupIdParamSchema), groupsController.deleteGroup);
 
 // Membership
