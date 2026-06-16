@@ -51,18 +51,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         }`}
       >
         {/* Brand / Logo */}
-        <div className="flex items-center justify-between h-[72px] px-6 shrink-0 pt-6">
-          <div className="p-4 mb-2">
-            <div className="flex items-center gap-3 mb-1 mt-2">
+        <div className="relative flex flex-col items-center justify-center pt-8 pb-4 shrink-0">
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-3 mb-1">
               <img src="/icon.svg" alt="StudyCircle Logo" className="w-8 h-8 animate-float" />
               <h1 className="text-xl font-bold text-gradient-animated tracking-tight">StudyCircle</h1>
             </div>
-            <p className="text-sm text-gray-400">Platform Kolaborasi</p>
+            <p className="text-sm text-gray-400 text-center">Platform Kolaborasi</p>
           </div>
           {/* Close button – mobile only */}
           <button
             onClick={onClose}
-            className="p-1 rounded-md text-gray-400 hover:text-white hover:bg-gray-700/50 transition-colors lg:hidden"
+            className="absolute right-4 top-4 p-1 rounded-md text-gray-400 hover:text-white hover:bg-gray-700/50 transition-colors lg:hidden"
             aria-label="Close sidebar"
           >
             <X className="h-5 w-5" />
