@@ -11,6 +11,7 @@ import { FormInput } from '../components/common/FormInput';
 import { Tabs } from '../components/common/Tabs';
 import { GroupCard } from '../components/features/groups/GroupCard';
 import { CreateGroupModal } from '../components/features/groups/CreateGroupModal';
+import { gooeyToast } from 'goey-toast';
 
 export function GroupsPage() {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ export function GroupsPage() {
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const [activeTab, setActiveTab] = useState('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [joinError, setJoinError] = useState<string | null>(null);
 
   // React Query Infinite Scroll Query
   const {
@@ -78,14 +78,14 @@ export function GroupsPage() {
 
   const handleJoin = async (groupId: string) => {
     try {
-      setJoinError(null);
       await joinMutation.mutateAsync(groupId);
+      gooeyToast.success('Berhasil bergabung dengan grup');
     } catch (err: any) {
       const status = err.response?.status;
       if (status === 409) {
-        setJoinError('Anda sudah menjadi anggota grup ini.');
+        gooeyToast.error('Anda sudah menjadi anggota grup ini.');
       } else {
-        setJoinError(err.response?.data?.error || 'Gagal bergabung dengan grup');
+        gooeyToast.error(err.response?.data?.error || 'Gagal bergabung dengan grup');
       }
     }
   };
@@ -128,20 +128,6 @@ export function GroupsPage() {
           />
         </div>
       </div>
-
-      {/* Join Error Toast */}
-      {joinError && (
-        <div role="alert" aria-live="assertive" className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg flex items-center justify-between">
-          <span>{joinError}</span>
-          <button
-            onClick={() => setJoinError(null)}
-            className="text-red-400 hover:text-red-300 ml-3"
-            aria-label="Tutup peringatan"
-          >
-            ✕
-          </button>
-        </div>
-      )}
 
       {/* Groups Grid */}
       {filteredGroups.length === 0 ? (

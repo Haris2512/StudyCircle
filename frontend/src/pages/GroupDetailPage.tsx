@@ -22,6 +22,7 @@ import { MemberList } from '../components/features/groups/MemberList';
 import { GroupChat } from '../components/features/groups/GroupChat';
 import { useQueryClient } from '@tanstack/react-query';
 import { socketService } from '../utils/socket';
+import { gooeyToast } from 'goey-toast';
 
 const TABS = [
   { key: 'chat', label: 'Chat Grup' },
@@ -43,7 +44,6 @@ export function GroupDetailPage() {
   const [editName, setEditName] = useState('');
   const [editDesc, setEditDesc] = useState('');
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   // Dialogs
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -115,15 +115,15 @@ export function GroupDetailPage() {
   const handleSaveEdit = async () => {
     try {
       setSaving(true);
-      setError(null);
       await groupsApi.updateGroup(groupId, {
         name: editName.trim(),
         description: editDesc.trim() || undefined,
       });
       queryClient.invalidateQueries({ queryKey: ['groups', 'detail', groupId] });
       setIsEditing(false);
+      gooeyToast.success('Grup berhasil diperbarui');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Gagal memperbarui grup');
+      gooeyToast.error(err.response?.data?.error || 'Gagal memperbarui grup');
     } finally {
       setSaving(false);
     }
@@ -133,9 +133,10 @@ export function GroupDetailPage() {
     try {
       await groupsApi.deleteGroup(groupId);
       queryClient.invalidateQueries({ queryKey: ['groups'] });
+      gooeyToast.success('Grup berhasil dihapus');
       navigate('/groups', { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Gagal menghapus grup');
+      gooeyToast.error(err.response?.data?.error || 'Gagal menghapus grup');
     } finally {
       setShowDeleteDialog(false);
     }
@@ -144,17 +145,19 @@ export function GroupDetailPage() {
   const handleLeaveGroup = async () => {
     try {
       await leaveGroupMutation.mutateAsync(groupId);
+      gooeyToast.success('Berhasil keluar dari grup');
       navigate('/groups', { replace: true });
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Gagal keluar dari grup');
+      gooeyToast.error(err.response?.data?.error || 'Gagal keluar dari grup');
     }
   };
 
   const handleRemoveMember = async (userId: string) => {
     try {
       await removeMemberMutation.mutateAsync({ groupId, userId });
+      gooeyToast.success('Anggota berhasil dikeluarkan');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Gagal mengeluarkan anggota');
+      gooeyToast.error(err.response?.data?.error || 'Gagal mengeluarkan anggota');
     }
   };
 
@@ -162,8 +165,9 @@ export function GroupDetailPage() {
     if (!materialToDelete) return;
     try {
       await deleteMaterialMutation.mutateAsync({ groupId, materialId: materialToDelete });
+      gooeyToast.success('Materi berhasil dihapus');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Gagal menghapus materi');
+      gooeyToast.error(err.response?.data?.error || 'Gagal menghapus materi');
     } finally {
       setMaterialToDelete(null);
     }
@@ -196,15 +200,6 @@ export function GroupDetailPage() {
 
   if (loading) {
     return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
-  }
-
-  if (error && !group) {
-    return (
-      <div className="text-center py-16">
-        <p role="alert" className="text-red-400 mb-4">{error}</p>
-        <Button onClick={() => navigate('/groups')}>Kembali ke Grup</Button>
-      </div>
-    );
   }
 
   if (!group) return null;
@@ -304,11 +299,6 @@ export function GroupDetailPage() {
           </>
         )}
       </Card>
-
-      {/* Error */}
-      {error && (
-        <p role="alert" className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">{error}</p>
-      )}
 
       {/* Tabs */}
       <Tabs tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} />

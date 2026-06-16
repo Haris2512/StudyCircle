@@ -17,6 +17,7 @@ import { Card } from '../components/common/Card';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { formatDateTime, formatTime } from '../utils/formatDate';
 import type { SessionStatus } from '../types';
+import { gooeyToast } from 'goey-toast';
 
 const statusConfig: Record<SessionStatus, { label: string; variant: 'info' | 'success' | 'default' | 'danger' }> = {
   scheduled: { label: 'Scheduled', variant: 'info' },
@@ -30,7 +31,6 @@ export function SessionDetailPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const [error, setError] = useState<string | null>(null);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showVideoCall, setShowVideoCall] = useState(false);
@@ -65,28 +65,28 @@ export function SessionDetailPage() {
 
   const handleJoinSession = async () => {
     try {
-      setError(null);
       await joinSessionMutation.mutateAsync(sessionId);
+      gooeyToast.success('Berhasil bergabung ke sesi');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to join session');
+      gooeyToast.error(err.response?.data?.error || 'Failed to join session');
     }
   };
 
   const handleLeaveSession = async () => {
     try {
-      setError(null);
       await leaveSessionMutation.mutateAsync(sessionId);
+      gooeyToast.success('Berhasil keluar dari sesi');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to leave session');
+      gooeyToast.error(err.response?.data?.error || 'Failed to leave session');
     }
   };
 
   const handleCancelSession = async () => {
     try {
-      setError(null);
       await updateSessionMutation.mutateAsync({ sessionId, payload: { status: 'cancelled' } });
+      gooeyToast.success('Sesi berhasil dibatalkan');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to cancel session');
+      gooeyToast.error(err.response?.data?.error || 'Failed to cancel session');
     } finally {
       setShowCancelDialog(false);
     }
@@ -94,11 +94,11 @@ export function SessionDetailPage() {
 
   const handleDeleteSession = async () => {
     try {
-      setError(null);
       await deleteSessionMutation.mutateAsync(sessionId);
+      gooeyToast.success('Sesi berhasil dihapus');
       navigate(-1);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to delete session');
+      gooeyToast.error(err.response?.data?.error || 'Failed to delete session');
     } finally {
       setShowDeleteDialog(false);
     }
@@ -108,7 +108,7 @@ export function SessionDetailPage() {
     return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
   }
 
-  if ((sessionError || error) && !session) {
+  if (sessionError && !session) {
     return (
       <div className="text-center py-16">
         <p role="alert" className="text-red-400 mb-4">Gagal memuat sesi belajar.</p>
@@ -236,10 +236,6 @@ export function SessionDetailPage() {
           </p>
         )}
       </Card>
-
-      {error && (
-        <p role="alert" className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">{error}</p>
-      )}
 
       {/* Attendance List */}
       <Card className="p-6">

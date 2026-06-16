@@ -12,6 +12,7 @@ import { FormInput } from '../components/common/FormInput';
 import { Tabs } from '../components/common/Tabs';
 import { GroupCard } from '../components/features/groups/GroupCard';
 import { Badge } from '../components/common/Badge';
+import { gooeyToast } from 'goey-toast';
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ export function DashboardPage() {
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
-  const [joinError, setJoinError] = useState<string | null>(null);
 
   // Fetch groups using React Query
   const { data, isLoading } = useGroupsInfiniteQuery({ search: debouncedSearchQuery, limit: 6 });
@@ -134,19 +134,6 @@ export function DashboardPage() {
           className="mb-6"
         />
 
-        {joinError && (
-          <div role="alert" aria-live="assertive" className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg mb-4 flex items-center justify-between">
-            <span>{joinError}</span>
-            <button
-              onClick={() => setJoinError(null)}
-              className="text-red-400 hover:text-red-300 ml-3"
-              aria-label="Tutup peringatan"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        )}
-
         {filteredGroups.length === 0 ? (
           <EmptyState
             title="Grup tidak ditemukan"
@@ -165,11 +152,11 @@ export function DashboardPage() {
                   isAdmin={isAdmin}
                   onJoin={async () => {
                     try {
-                      setJoinError(null);
                       await joinMutation.mutateAsync(group.id);
+                      gooeyToast.success('Berhasil bergabung dengan grup');
                       navigate(`/groups/${group.id}`);
                     } catch (err: any) {
-                      setJoinError(err.response?.data?.message || 'Gagal bergabung dengan grup');
+                      gooeyToast.error(err.response?.data?.message || 'Gagal bergabung dengan grup');
                     }
                   }}
                   onClick={() => navigate(`/groups/${group.id}`)}

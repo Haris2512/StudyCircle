@@ -7,6 +7,7 @@ import { FormInput } from '../components/common/FormInput';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
+import { gooeyToast } from 'goey-toast';
 
 const LEARNING_STYLES = ['Visual', 'Auditory', 'Reading/Writing', 'Kinesthetic'];
 
@@ -22,7 +23,6 @@ export function ProfilePage() {
   const [editName, setEditName] = useState('');
   const [editBio, setEditBio] = useState('');
   const [editTimezone, setEditTimezone] = useState('');
-  const [error, setError] = useState<string | null>(null);
 
   // Sync edit state values when profile query loads
   useEffect(() => {
@@ -35,20 +35,20 @@ export function ProfilePage() {
 
   const handleSaveProfile = async () => {
     try {
-      setError(null);
       await updateProfileMutation.mutateAsync({ name: editName.trim(), bio: editBio.trim(), timezone: editTimezone });
       setIsEditing(false);
+      gooeyToast.success('Profil berhasil diperbarui');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to update profile');
+      gooeyToast.error(err.response?.data?.error || 'Gagal memperbarui profil');
     }
   };
 
   const handleUpdateLearningStyle = async (style: string) => {
     try {
-      setError(null);
       await updateLearningStyleMutation.mutateAsync({ primaryStyle: style });
+      gooeyToast.success('Learning Style berhasil diperbarui');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to update learning style');
+      gooeyToast.error(err.response?.data?.error || 'Gagal memperbarui learning style');
     }
   };
 
@@ -234,11 +234,6 @@ export function ProfilePage() {
         </div>
       </Card>
 
-      {(error || profileError) && (
-        <p role="alert" className="text-sm text-red-400 bg-red-500/10 px-4 py-3 rounded-lg">
-          {error || (profileError as any)?.response?.data?.error || 'Gagal memproses data'}
-        </p>
-      )}
     </div>
   );
 }
