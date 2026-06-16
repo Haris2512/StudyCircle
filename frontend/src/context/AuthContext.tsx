@@ -21,8 +21,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         const response = await authApi.getMe();
         return response.data || null;
-      } catch (error) {
-        return null;
+      } catch (error: any) {
+        if (error.response?.status === 401) {
+          return null;
+        }
+        throw error;
       }
     },
     retry: false,
