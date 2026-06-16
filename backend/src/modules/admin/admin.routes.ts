@@ -11,6 +11,7 @@ router.use(requireAdmin);
 router.get('/stats', adminController.getStats);
 router.get('/users', adminController.getUsers);
 router.delete('/users/:id', adminController.deleteUser);
+router.patch('/users/:id/role', adminController.updateUserRole);
 router.get('/groups', adminController.getGroups);
 router.delete('/groups/:id', adminController.deleteGroup);
 
