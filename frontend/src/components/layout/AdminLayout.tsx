@@ -8,9 +8,11 @@ import {
   Menu,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const AdminLayout: React.FC = () => {
   const { logout, user } = useAuth();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navItems = [
@@ -73,6 +75,14 @@ export const AdminLayout: React.FC = () => {
               <p className="text-xs text-gray-400 truncate">{user?.email}</p>
             </div>
           </div>
+          <button
+            onClick={() => navigate('/dashboard')}
+            aria-label="Go to App"
+            className="flex items-center gap-3 px-4 py-3 mb-2 w-full rounded-xl text-sm font-medium text-primary-400 hover:text-white hover:bg-primary-500/20 transition-all duration-200"
+          >
+            <LayoutDashboard className="w-5 h-5" />
+            Go to App
+          </button>
           <button
             onClick={logout}
             aria-label="Keluar"

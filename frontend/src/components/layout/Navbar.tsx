@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, LogOut, Bell, Check, Trash2, Calendar, BookOpen } from 'lucide-react';
+import { Menu, LogOut, Bell, Check, Trash2, Calendar, BookOpen, Shield } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -155,6 +155,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuToggle }) => {
               Lv. {user.level || 1}
             </span>
           </div>
+        )}
+        {user?.role === 'ADMIN' && (
+          <button
+            onClick={() => navigate('/admin')}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 hover:text-red-300 transition-all duration-200"
+            aria-label="Admin Panel"
+          >
+            <Shield className="h-4 w-4" />
+            <span className="hidden sm:inline">Admin Panel</span>
+          </button>
         )}
         <button
           onClick={logout}
