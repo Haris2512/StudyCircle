@@ -41,9 +41,14 @@ export function AdminGroupsPage() {
     }
   };
 
-  if (loading) {
-    return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
-  }
+  const groupList = (groups && groups.length > 0) ? groups : (loading ? Array.from({length: 5}).map((_, i) => ({
+    id: `dummy-${i}`,
+    name: 'Nama Kelompok Placeholder',
+    subject: { code: 'SUB101' },
+    creator: { fullName: 'Nama Kreator' },
+    _count: { members: 0 },
+    maxMembers: 10
+  })) : []);
 
   return (
     <div className="space-y-6">
@@ -54,10 +59,11 @@ export function AdminGroupsPage() {
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
+      <phantom-ui fallback-radius="16" loading={loading}>
+        <div className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-400">
-            <thead className="text-xs uppercase bg-black/20 text-gray-400">
+            <thead className="text-xs uppercase bg-black/20 text-gray-400" data-shimmer-ignore>
               <tr>
                 <th scope="col" className="px-6 py-4">Group Name</th>
                 <th scope="col" className="px-6 py-4">Subject</th>
@@ -67,10 +73,10 @@ export function AdminGroupsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {groups.map(group => (
+              {groupList.map(group => (
                 <tr key={group.id} className="hover:bg-white/5 transition-colors">
                   <td className="px-6 py-4">
-                    <div className="font-medium text-white">{group.name}</div>
+                    <div className="font-medium text-white leading-none">{group.name}</div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="inline-flex items-center px-2 py-1 rounded border border-white/10 bg-white/5 text-xs text-gray-300">
@@ -78,7 +84,7 @@ export function AdminGroupsPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    {group.creator?.fullName}
+                    <span className="block leading-none">{group.creator?.fullName}</span>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <span className="inline-flex items-center gap-1 text-gray-300">
@@ -97,7 +103,7 @@ export function AdminGroupsPage() {
                   </td>
                 </tr>
               ))}
-              {groups.length === 0 && (
+              {(!loading && groups.length === 0) && (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     No groups found
@@ -107,7 +113,8 @@ export function AdminGroupsPage() {
             </tbody>
           </table>
         </div>
-      </div>
+        </div>
+      </phantom-ui>
 
       <ConfirmDialog
         isOpen={!!deleteTarget}

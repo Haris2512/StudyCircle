@@ -6,9 +6,13 @@ import { Card } from '../components/common/Card';
 export function LeaderboardPage() {
   const { data: leaderboard, isLoading } = useLeaderboardQuery(20);
 
-  if (isLoading) {
-    return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
-  }
+  const leaderboardList = leaderboard || (isLoading ? Array.from({ length: 5 }).map((_, i) => ({
+    id: `dummy-${i}`,
+    fullName: 'Nama Pengguna Placeholder',
+    username: 'username_placeholder',
+    level: 10,
+    points: 1000
+  })) : []);
 
   const getRankIcon = (index: number) => {
     if (index === 0) return <Trophy className="w-6 h-6 text-yellow-500 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />;
@@ -34,10 +38,11 @@ export function LeaderboardPage() {
         <p className="text-gray-400">Peringkat 20 Teratas Anggota StudyCircle</p>
       </div>
 
-      <Card className="p-0 overflow-hidden max-w-4xl mx-auto border-gray-800/50">
+      <phantom-ui fallback-radius="16" loading={isLoading}>
+        <Card className="p-0 overflow-hidden max-w-4xl mx-auto border-gray-800/50">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
-            <thead>
+            <thead data-shimmer-ignore>
               <tr className="bg-white/5 border-b border-gray-800">
                 <th className="py-4 px-6 font-semibold text-gray-400">Peringkat</th>
                 <th className="py-4 px-6 font-semibold text-gray-400">Pengguna</th>
@@ -46,7 +51,7 @@ export function LeaderboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800/50">
-              {leaderboard?.map((user: any, index: number) => (
+              {leaderboardList.map((user: any, index: number) => (
                 <tr 
                   key={user.id} 
                   className="hover:bg-white/5 transition-colors"
@@ -55,9 +60,9 @@ export function LeaderboardPage() {
                     {getRankIcon(index)}
                   </td>
                   <td className="py-4 px-6">
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-white">{user.fullName}</span>
-                      <span className="text-xs text-gray-500">@{user.username}</span>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="font-semibold text-white leading-none">{user.fullName}</span>
+                      <span className="text-xs text-gray-500 leading-none">@{user.username}</span>
                     </div>
                   </td>
                   <td className="py-4 px-6">
@@ -79,7 +84,7 @@ export function LeaderboardPage() {
                 </tr>
               ))}
               
-              {(!leaderboard || leaderboard.length === 0) && (
+              {(!isLoading && (!leaderboardList || leaderboardList.length === 0)) && (
                 <tr>
                   <td colSpan={4} className="py-8 text-center text-gray-500">
                     Belum ada data peringkat.
@@ -90,6 +95,7 @@ export function LeaderboardPage() {
           </table>
         </div>
       </Card>
+      </phantom-ui>
     </div>
   );
 }

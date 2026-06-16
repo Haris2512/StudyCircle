@@ -63,9 +63,9 @@ export function SummaryStats({ summary }: SummaryStatsProps) {
             <div className={`shrink-0 ${stat.color}`}>
               {stat.icon}
             </div>
-            <div className="min-w-0">
-              <p className="text-2xl font-bold text-white">{stat.value}</p>
-              <p className="text-xs text-gray-400 truncate">{stat.label}</p>
+            <div className="min-w-0 flex flex-col justify-center gap-1.5">
+              <p className="text-2xl font-bold text-white leading-none">{stat.value}</p>
+              <p className="text-xs text-gray-400 truncate leading-none">{stat.label}</p>
             </div>
           </div>
         </Card>

@@ -42,9 +42,14 @@ export function AdminUsersPage() {
     }
   };
 
-  if (loading) {
-    return <LoadingSpinner size="lg" className="min-h-[60vh]" />;
-  }
+  const userList = (users && users.length > 0) ? users : (loading ? Array.from({length: 5}).map((_, i) => ({
+    id: `dummy-${i}`,
+    fullName: 'Nama Pengguna Placeholder',
+    email: 'email@placeholder.com',
+    role: 'STUDENT',
+    semester: 1,
+    createdAt: new Date().toISOString()
+  })) : []);
 
   return (
     <div className="space-y-6">
@@ -59,10 +64,11 @@ export function AdminUsersPage() {
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
+      <phantom-ui fallback-radius="16" loading={loading}>
+        <div className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-400">
-            <thead className="text-xs uppercase bg-black/20 text-gray-400">
+            <thead className="text-xs uppercase bg-black/20 text-gray-400" data-shimmer-ignore>
               <tr>
                 <th scope="col" className="px-6 py-4">Name</th>
                 <th scope="col" className="px-6 py-4">Role</th>
@@ -72,16 +78,21 @@ export function AdminUsersPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {users.map(user => (
+              {userList.map(user => (
                 <tr key={user.id} className="hover:bg-white/5 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-white font-bold shrink-0">
+                      <div 
+                        data-shimmer-ignore 
+                        className={`w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0 ${
+                          loading ? 'bg-white/10 text-transparent' : 'bg-gray-800 text-white'
+                        }`}
+                      >
                         {user.fullName.charAt(0).toUpperCase()}
                       </div>
-                      <div>
-                        <div className="font-medium text-white">{user.fullName}</div>
-                        <div className="text-xs text-gray-500">{user.email}</div>
+                      <div className="flex flex-col gap-1.5">
+                        <div className="font-medium text-white leading-none">{user.fullName}</div>
+                        <div className="text-xs text-gray-500 leading-none">{user.email}</div>
                       </div>
                     </div>
                   </td>
@@ -96,9 +107,11 @@ export function AdminUsersPage() {
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-4">{user.semester || '-'}</td>
                   <td className="px-6 py-4">
-                    {new Date(user.createdAt).toLocaleDateString('id-ID')}
+                    <span className="block leading-none">{user.semester || '-'}</span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="block leading-none">{new Date(user.createdAt).toLocaleDateString('id-ID')}</span>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <button
@@ -117,7 +130,7 @@ export function AdminUsersPage() {
                   </td>
                 </tr>
               ))}
-              {users.length === 0 && (
+              {(!loading && users.length === 0) && (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     No users found
@@ -127,7 +140,8 @@ export function AdminUsersPage() {
             </tbody>
           </table>
         </div>
-      </div>
+        </div>
+      </phantom-ui>
 
       <ConfirmDialog
         isOpen={!!deleteTarget}
