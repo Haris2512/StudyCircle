@@ -119,7 +119,7 @@ export function DashboardPage() {
               name="search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari mata kuliah..."
+              placeholder="Cari grup..."
               leadingIcon={<Search className="w-4 h-4" />}
             />
           </div>

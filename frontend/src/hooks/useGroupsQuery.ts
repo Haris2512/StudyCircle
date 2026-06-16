@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { groupsApi } from '../api/groups.api';
 import type { CreateGroupPayload } from '../types';
 import { matchApi } from '../api/match.api';
@@ -31,6 +31,7 @@ export function useGroupsInfiniteQuery(filters?: { subjectId?: string; search?: 
       }
       return undefined;
     },
+    placeholderData: keepPreviousData,
   });
 }
 
