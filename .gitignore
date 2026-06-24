@@ -118,3 +118,6 @@ Thumbs.db
 /backend/prisma/*.db-journal
 
 backend/uploads/
+
+.agents
+/docs
