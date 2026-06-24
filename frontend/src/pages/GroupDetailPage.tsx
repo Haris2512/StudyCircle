@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman GroupDetailPage
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Pencil, Trash2, LogOut, Users, BookOpen, Calendar, Plus } from 'lucide-react';

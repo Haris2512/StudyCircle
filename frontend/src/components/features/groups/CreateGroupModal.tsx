@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Modal } from '../../common/Modal';

@@ -1,3 +1,4 @@
+// Rute API untuk fitur progres pembelajaran
 import { Router } from 'express';
 import { ProgressController } from './progress.controller';
 import { requireAuth } from '../../middleware/auth.middleware';

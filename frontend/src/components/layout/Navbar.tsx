@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React, { useState, useRef, useEffect } from 'react';
 import { Menu, LogOut, Bell, Check, Trash2, Calendar, BookOpen, Shield } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';

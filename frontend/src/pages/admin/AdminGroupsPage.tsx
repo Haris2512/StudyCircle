@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman admin Groups
 import { useEffect, useState } from 'react';
 import { adminApi } from '../../api/admin.api';
 import { Trash2, Users, Search, ChevronLeft, ChevronRight } from 'lucide-react';

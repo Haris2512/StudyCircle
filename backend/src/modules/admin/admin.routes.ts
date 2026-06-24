@@ -1,3 +1,4 @@
+// Rute API untuk panel admin
 import { Router } from 'express';
 import { AdminController } from './admin.controller';
 import { requireAdmin } from '../../middleware/auth.middleware';

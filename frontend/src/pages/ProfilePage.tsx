@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman ProfilePage
 import { useState, useEffect } from 'react';
 import { User, Mail, GraduationCap, Pencil } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';

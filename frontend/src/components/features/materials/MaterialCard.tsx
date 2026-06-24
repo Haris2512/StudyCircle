@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { Download, Trash2, FileText, FileSpreadsheet, Presentation } from 'lucide-react';
 import { Card } from '../../common/Card';
 import { Button } from '../../common/Button';

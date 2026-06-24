@@ -1,3 +1,4 @@
+// Service untuk logika perhitungan dan pembaruan progres
 import { ProgressRepository } from './progress.repository';
 import { Prisma } from '@prisma/client';
 

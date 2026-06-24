@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React from "react";
 import { Modal } from "./Modal";
 import { Button } from "./Button";

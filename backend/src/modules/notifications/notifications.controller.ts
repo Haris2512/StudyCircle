@@ -1,3 +1,4 @@
+// Controller untuk mengelola notifikasi pengguna
 import { Request, Response } from 'express';
 import { NotificationsService } from './notifications.service';
 

@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman admin Dashboard
 import { useEffect, useState } from 'react';
 import { adminApi } from '../../api/admin.api';
 import { Users, FolderKanban, Calendar, FileText, ArrowRight } from 'lucide-react';

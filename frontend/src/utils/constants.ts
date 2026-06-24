@@ -1,3 +1,6 @@
+/**
+ * Kumpulan konstanta yang digunakan di seluruh aplikasi.
+ */
 // Mastery Level Thresholds (hours)
 export const MASTERY_THRESHOLDS = {
   BEGINNER_MAX: 4,

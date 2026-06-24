@@ -1,3 +1,6 @@
+/**
+ * Fungsi utilitas untuk memformat ukuran file dari byte ke format yang mudah dibaca.
+ */
 export function formatFileSize(bytes?: number): string {
   if (!bytes || bytes === 0) return '0 B';
   const units = ['B', 'KB', 'MB', 'GB'];

@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React, { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import {

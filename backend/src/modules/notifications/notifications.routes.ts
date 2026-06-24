@@ -1,3 +1,4 @@
+// Rute API untuk fitur notifikasi
 import { Router } from 'express';
 import { NotificationsController } from './notifications.controller';
 import { requireAuth } from '../../middleware/auth.middleware';

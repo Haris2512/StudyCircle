@@ -1,3 +1,4 @@
+// Konfigurasi variabel lingkungan (environment variables) dan validasi menggunakan Zod
 import { z } from 'zod';
 import dotenv from 'dotenv';
 

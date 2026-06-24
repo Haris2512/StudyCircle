@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React from 'react';
 import { Card } from '../../common/Card';
 import { Lightbulb, Brain, Eye, Headphones, PenTool, Hand } from 'lucide-react';

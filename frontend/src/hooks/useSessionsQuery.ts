@@ -1,3 +1,6 @@
+/**
+ * Kumpulan hooks untuk mengelola sesi belajar dalam grup menggunakan React Query.
+ */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { sessionsApi } from '../api/sessions.api';
 import type { CreateSessionPayload } from '../types';

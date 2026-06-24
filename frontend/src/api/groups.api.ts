@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk fitur terkait grup belajar.
+ */
 import { axiosInstance } from './axiosInstance';
 import type { CreateGroupPayload } from '../types';
 

@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { Clock } from 'lucide-react';
 import { Card } from '../../common/Card';
 import { Badge } from '../../common/Badge';

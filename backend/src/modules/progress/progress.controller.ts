@@ -1,3 +1,4 @@
+// Controller untuk melacak dan mengelola progres pembelajaran
 import { Request, Response } from 'express';
 import { ProgressService } from './progress.service';
 

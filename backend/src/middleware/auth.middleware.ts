@@ -1,3 +1,4 @@
+// Middleware untuk menangani autentikasi dan otorisasi pengguna menggunakan JWT
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../config/jwt';
 import { PrismaClient } from '@prisma/client';

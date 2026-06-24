@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman LeaderboardPage
 import { Trophy, Medal, Star } from 'lucide-react';
 import { useLeaderboardQuery } from '../hooks/useProfileQuery';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';

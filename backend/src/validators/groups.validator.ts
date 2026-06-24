@@ -1,3 +1,4 @@
+// Validator untuk memvalidasi data input terkait operasi grup belajar
 import { z } from 'zod';
 
 export const createGroupSchema = z.object({

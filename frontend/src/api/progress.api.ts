@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk fitur progres belajar pengguna.
+ */
 import { axiosInstance } from './axiosInstance';
 
 export const progressApi = {

@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk fitur administratif aplikasi.
+ */
 import { axiosInstance } from './axiosInstance';
 
 export const adminApi = {

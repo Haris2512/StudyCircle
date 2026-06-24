@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk proses autentikasi (login, register, logout, getMe).
+ */
 import { axiosInstance } from './axiosInstance';
 import type { ApiResponse, User } from '../types';
 

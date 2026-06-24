@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { useState, useEffect } from 'react';
 import { WifiOff } from 'lucide-react';
 

@@ -1,3 +1,6 @@
+/**
+ * Komponen root utama untuk aplikasi React.
+ */
 import { useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { AppRouter } from './router/AppRouter';

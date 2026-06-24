@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import { Button } from './Button';

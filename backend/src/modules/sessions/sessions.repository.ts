@@ -1,3 +1,4 @@
+// File repository untuk modul Sessions
 import { PrismaClient, Prisma, AttendanceStatus } from '@prisma/client';
 
 const prisma = new PrismaClient();

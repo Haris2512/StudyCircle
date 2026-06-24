@@ -1,3 +1,6 @@
+/**
+ * Konfigurasi instance Axios dasar, termasuk interceptor untuk request dan response.
+ */
 import axios from 'axios';
 
 export const axiosInstance = axios.create({

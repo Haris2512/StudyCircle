@@ -1,3 +1,6 @@
+/**
+ * Context provider untuk mengelola state autentikasi pengguna secara global.
+ */
 import { createContext, type ReactNode } from 'react';
 import type { User } from '../types';
 import { authApi } from '../api/auth.api';

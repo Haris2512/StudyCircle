@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { BookOpen } from 'lucide-react';

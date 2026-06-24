@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk mengelola materi pembelajaran di grup.
+ */
 import { axiosInstance } from './axiosInstance';
 
 export const materialsApi = {

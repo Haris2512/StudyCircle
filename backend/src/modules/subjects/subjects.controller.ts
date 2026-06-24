@@ -1,3 +1,4 @@
+// Controller untuk mengelola data mata pelajaran (subjects)
 import { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
 

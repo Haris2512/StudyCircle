@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk fitur notifikasi.
+ */
 import { axiosInstance } from './axiosInstance';
 
 export const notificationsApi = {

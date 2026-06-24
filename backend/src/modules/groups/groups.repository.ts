@@ -1,3 +1,4 @@
+// File repository untuk modul Groups
 import { Prisma, StudyGroup, Member } from '@prisma/client';
 import { prisma } from '../../config/database';
 

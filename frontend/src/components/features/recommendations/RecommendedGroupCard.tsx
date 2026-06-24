@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React, { useState } from 'react';
 import { Card } from '../../common/Card';
 import { Button } from '../../common/Button';

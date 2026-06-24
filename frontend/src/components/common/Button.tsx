@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React from "react";
 
 type ButtonVariant = "primary" | "secondary" | "danger" | "ghost" | "outline";

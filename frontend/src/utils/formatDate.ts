@@ -1,3 +1,6 @@
+/**
+ * Fungsi utilitas untuk memformat tanggal dan waktu ke dalam format bahasa Indonesia.
+ */
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString('id-ID', {

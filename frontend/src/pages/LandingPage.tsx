@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman LandingPage
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { 

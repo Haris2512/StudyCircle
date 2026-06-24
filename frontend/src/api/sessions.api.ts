@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk fitur sesi belajar.
+ */
 import { axiosInstance } from './axiosInstance';
 import type { CreateSessionPayload } from '../types';
 

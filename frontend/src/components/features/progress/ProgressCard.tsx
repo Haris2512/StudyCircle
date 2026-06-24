@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { Clock, BookOpen, Calendar } from 'lucide-react';
 import { Card } from '../../common/Card';
 import { MasteryBadge } from './MasteryBadge';

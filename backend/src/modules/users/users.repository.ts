@@ -1,3 +1,4 @@
+// File repository untuk modul Users
 import { Prisma } from '@prisma/client';
 import { prisma } from '../../config/database';
 

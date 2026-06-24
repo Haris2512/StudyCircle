@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman LoginPage
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';

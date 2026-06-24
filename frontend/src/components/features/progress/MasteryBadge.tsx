@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { Badge } from '../../common/Badge';
 import type { MasteryLevel } from '../../../types';
 

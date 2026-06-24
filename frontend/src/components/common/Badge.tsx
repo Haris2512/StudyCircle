@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React from "react";
 
 type BadgeVariant = "success" | "warning" | "danger" | "info" | "default" | "solid-warning" | "outline-warning" | "primary";

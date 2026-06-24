@@ -1,3 +1,4 @@
+// Konfigurasi untuk menandatangani (sign) dan memverifikasi token JWT
 import jwt from 'jsonwebtoken';
 import { env } from './env';
 

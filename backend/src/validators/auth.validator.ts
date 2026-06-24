@@ -1,3 +1,4 @@
+// Validator untuk memvalidasi data input pada proses autentikasi (login, register)
 import { z } from 'zod';
 
 export const registerSchema = z.object({

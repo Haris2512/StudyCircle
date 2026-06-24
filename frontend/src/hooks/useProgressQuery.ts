@@ -1,3 +1,6 @@
+/**
+ * Hook untuk mengambil data progres belajar pengguna menggunakan React Query.
+ */
 import { useQuery } from '@tanstack/react-query';
 import { progressApi } from '../api/progress.api';
 

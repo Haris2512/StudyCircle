@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman ProgressPage
 import { TrendingUp } from 'lucide-react';
 import { useUserProgressQuery, useProgressSummaryQuery } from '../hooks/useProgressQuery';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';

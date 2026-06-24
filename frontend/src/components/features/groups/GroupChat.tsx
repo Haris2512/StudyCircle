@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { useState, useEffect, useRef } from 'react';
 import { socketService } from '../../../utils/socket';
 import { groupsApi } from '../../../api/groups.api';

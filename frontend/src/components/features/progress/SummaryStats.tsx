@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { BookOpen, Clock, CheckCircle, Trophy, BookMarked, Sprout } from 'lucide-react';
 import { Card } from '../../common/Card';
 import type { ProgressSummary } from '../../../types';

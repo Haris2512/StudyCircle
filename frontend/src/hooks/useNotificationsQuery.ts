@@ -1,3 +1,6 @@
+/**
+ * Kumpulan hooks untuk mengambil dan memanipulasi data notifikasi menggunakan React Query.
+ */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { notificationsApi } from '../api/notifications.api';
 

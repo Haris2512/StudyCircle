@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { useState } from 'react';
 import { Modal } from '../../common/Modal';
 import { FormInput } from '../../common/FormInput';

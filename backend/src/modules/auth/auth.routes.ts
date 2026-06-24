@@ -14,6 +14,8 @@ const router = Router();
  */
 
 /**
+ * Endpoint Registrasi Pengguna
+ * Menggunakan middleware validate untuk memvalidasi struktur request body menggunakan registerSchema (Zod)
  * @openapi
  * /api/v1/auth/register:
  *   post:
@@ -53,6 +55,8 @@ const router = Router();
 router.post('/register', validate(registerSchema), authController.register);
 
 /**
+ * Endpoint Login
+ * Memvalidasi body request menggunakan loginSchema dan melanjutkan ke authController.login
  * @openapi
  * /api/v1/auth/login:
  *   post:
@@ -97,6 +101,8 @@ router.post('/register', validate(registerSchema), authController.register);
 router.post('/login', validate(loginSchema), authController.login);
 
 /**
+ * Endpoint Logout
+ * Membutuhkan otentikasi (requireAuth) sebelum mengizinkan proses logout
  * @openapi
  * /api/v1/auth/logout:
  *   post:
@@ -114,6 +120,8 @@ router.post('/login', validate(loginSchema), authController.login);
 router.post('/logout', requireAuth, authController.logout);
 
 /**
+ * Endpoint Mendapatkan Data Pengguna Sendiri
+ * Middleware requireAuth memastikan hanya pengguna dengan token JWT valid yang bisa mengakses ini
  * @openapi
  * /api/v1/auth/me:
  *   get:

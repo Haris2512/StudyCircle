@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React, { useRef, useCallback } from "react";
 
 interface Tab {

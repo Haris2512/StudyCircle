@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React, { useEffect, useCallback, useRef, useId } from "react";
 
 type ModalSize = "sm" | "md" | "lg";

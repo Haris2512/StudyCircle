@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman RegisterPage
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Lock, BookOpen, Eye, EyeOff, ArrowRight } from 'lucide-react';

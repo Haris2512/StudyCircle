@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman SessionDetailPage
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Users, XCircle, Trash2, Video } from 'lucide-react';

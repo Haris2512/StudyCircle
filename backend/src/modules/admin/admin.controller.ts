@@ -1,3 +1,4 @@
+// Controller untuk fungsionalitas admin (statistik, kelola pengguna dan grup)
 import { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
 

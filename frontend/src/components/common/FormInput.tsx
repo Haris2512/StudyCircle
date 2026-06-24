@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import React, { forwardRef, useId } from "react";
 
 export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {

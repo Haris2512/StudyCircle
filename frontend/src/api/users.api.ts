@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk manajemen profil pengguna.
+ */
 import { axiosInstance } from './axiosInstance';
 
 export const usersApi = {

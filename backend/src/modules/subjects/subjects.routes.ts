@@ -1,3 +1,4 @@
+// Rute API untuk fitur mata pelajaran (subjects)
 import { Router } from 'express';
 import { SubjectsController } from './subjects.controller';
 import { requireAuth } from '../../middleware/auth.middleware';

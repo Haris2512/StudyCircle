@@ -1,3 +1,6 @@
+/**
+ * Kumpulan hooks untuk mengelola data profil pengguna dan leaderboard menggunakan React Query.
+ */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { usersApi } from '../api/users.api';
 

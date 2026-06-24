@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { useState, useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { Modal } from '../../common/Modal';

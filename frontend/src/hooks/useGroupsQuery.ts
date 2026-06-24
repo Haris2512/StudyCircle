@@ -1,3 +1,6 @@
+/**
+ * Kumpulan hooks untuk mengelola query dan mutasi terkait data grup belajar menggunakan React Query.
+ */
 import { useQuery, useInfiniteQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { groupsApi } from '../api/groups.api';
 import type { CreateGroupPayload } from '../types';

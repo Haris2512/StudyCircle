@@ -1,3 +1,4 @@
+// Repository untuk operasi database notifikasi
 import { prisma } from '../../config/database';
 
 export class NotificationsRepository {

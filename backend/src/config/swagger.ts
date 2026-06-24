@@ -1,3 +1,4 @@
+// Konfigurasi Swagger untuk dokumentasi API otomatis
 import swaggerJSDoc, { Options } from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { Express } from 'express';

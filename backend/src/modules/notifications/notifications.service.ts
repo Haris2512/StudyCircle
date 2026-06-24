@@ -1,3 +1,4 @@
+// Service untuk logika bisnis pengiriman dan manajemen notifikasi
 import { NotificationsRepository } from './notifications.repository';
 import { socketService } from '../../socket';
 import { prisma } from '../../config/database';

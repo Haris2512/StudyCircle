@@ -1,3 +1,4 @@
+// File ini berisi pengujian komponen untuk halaman LoginPage
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { LoginPage } from './LoginPage';

@@ -1,3 +1,4 @@
+// File ini berisi komponen untuk halaman GroupsPage
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Plus, Users } from 'lucide-react';

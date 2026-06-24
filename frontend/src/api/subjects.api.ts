@@ -1,3 +1,6 @@
+/**
+ * Definisi API untuk daftar mata pelajaran (subjects).
+ */
 import { axiosInstance } from './axiosInstance';
 
 export interface Subject {

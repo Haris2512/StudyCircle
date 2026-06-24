@@ -1,3 +1,6 @@
+/**
+ * Hook kustom untuk mengakses AuthContext dan mendapatkan data user yang sedang login.
+ */
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 

@@ -1,3 +1,6 @@
+/**
+ * Kumpulan hooks untuk mengelola query dan mutasi materi pembelajaran menggunakan React Query.
+ */
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { materialsApi } from '../api/materials.api';
 

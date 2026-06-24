@@ -1,3 +1,4 @@
+// Komponen ini merupakan bagian dari antarmuka pengguna
 import { Trash2 } from 'lucide-react';
 import { Badge } from '../../common/Badge';
 import { Button } from '../../common/Button';
